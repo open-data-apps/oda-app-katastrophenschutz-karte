@@ -1,0 +1,39 @@
+{
+  "apiVersion": "1",
+  "titel": "Katastrophenschutz-Karte",
+  "seitentitel": "Katastrophenschutz-Karte",
+  "lizenz": "Open Software License (OSL)",
+  "icon": "logo_ondics.png",
+  "beschreibung": [
+    "Katastrophenschutz-Karte zeigt offizielle Notfall-Anlaufstellen, Notrufstellen, Notfall-Infopunkte und Leuchttuerme aus einer einzelnen konfigurierten Quelle.<br>",
+    "Die App unterstuetzt Filter, Standortbezug, Detailansicht und einen Offline-Cache fuer zuletzt erfolgreich geladene Daten.<br><br>",
+    "Standardquelle fuer lokale Entwicklung und ODAS-Tests ist die gebuendelte Datei <code>../assets/daten-beispiel.csv</code>."
+  ],
+  "kontakt": [
+    "Sie sind zufrieden mit der App oder haben Anregungen, Verbesserungen oder Hinweise?<br>",
+    "Dann richten Sie sich gerne an uns.<br><br>",
+    "Tel.: <a href='tel:+49711310093100'>0711-31009-3100</a><br>",
+    "Fax: <a href='tel:+49711310093108'>0711-31009-3108</a><br>",
+    "E-Mail: <a href='mailto:info@ondics.de'>info@ondics.de</a>"
+  ],
+  "impressum": [
+    "Ondics GmbH<br>",
+    "Wolfgang Clauss<br>",
+    "Blumenstrasse 19<br>",
+    "70182 Stuttgart<br><br>",
+    "<a href='https://www.ondics.de/' target='_blank'>https://www.ondics.de/</a>"
+  ],
+  "datenschutz": [
+    "Die App verarbeitet den Browser-Standort nur lokal im Browser, wenn Nutzerinnen und Nutzer die Standortfreigabe aktiv erteilen.<br>",
+    "Standortdaten werden nicht an den App-Betreiber uebertragen. Der Offline-Cache speichert zuletzt geladene Standortdaten nur lokal im Browser."
+  ],
+  "urlDaten": "https://www.govdata.de/ckan/api/3/action/package_search?q=notfall+anlaufstellen&rows=50",
+  "fusszeile": [
+    "(C) Copyright 2026 | ",
+    "App & Daten: Ondics GmbH / Open Data Quellen | ",
+    "App-Entwickler: Ondics GmbH | ",
+    "Provided by: ODAS"
+  ],
+  "apiurl": "../assets/daten-beispiel.csv",
+  "sprache": "de"
+}

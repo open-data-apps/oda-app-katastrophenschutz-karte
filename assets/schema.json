@@ -1,0 +1,63 @@
+{
+  "name": "katastrophenschutz-karte-notfall-anlaufstellen",
+  "title": "Katastrophenschutz-Karte Notfall-Anlaufstellen",
+  "description": "Normalisiertes Schema für offizielle Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttürme.",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "title": "ID",
+      "description": "Eindeutige ID der Anlaufstelle innerhalb der App."
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "title": "Name",
+      "description": "Name oder Bezeichnung der Anlaufstelle."
+    },
+    {
+      "name": "address",
+      "type": "string",
+      "title": "Adresse",
+      "description": "Adresse der Anlaufstelle."
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "title": "Typ",
+      "description": "Rohbezeichnung des Einrichtungstyps aus der Datenquelle."
+    },
+    {
+      "name": "category",
+      "type": "string",
+      "title": "Typgruppe",
+      "constraints": {
+        "enum": ["leuchtturm", "notrufstelle", "infopunkt", "anlaufstelle"]
+      }
+    },
+    {
+      "name": "region",
+      "type": "string",
+      "title": "Region",
+      "description": "Kommune, Stadt oder Kreis."
+    },
+    {
+      "name": "latitude",
+      "type": "number",
+      "title": "Breitengrad",
+      "description": "WGS84 latitude."
+    },
+    {
+      "name": "longitude",
+      "type": "number",
+      "title": "Längengrad",
+      "description": "WGS84 longitude."
+    },
+    {
+      "name": "source",
+      "type": "string",
+      "title": "Datenquelle",
+      "description": "Herkunft der Daten, z.B. KRZN WFS oder Stadt Bielefeld."
+    }
+  ]
+}

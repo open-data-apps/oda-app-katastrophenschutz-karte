@@ -1,0 +1,4 @@
+id;name;address;type;region;latitude;longitude;source
+demo-bielefeld-1;Notfall-Anlaufstelle Feuerwehr Bielefeld Mitte;Am Stadtholz 18, 33609 Bielefeld;Allgemeine Anlaufstelle;Bielefeld;52.0302;8.5501;Demo-Daten
+demo-kleve-1;Notrufstelle Leuchtturm Wallfahrtstadt Kevelaer 2;Sonsbecker Str. 7a, 47627 Kervenheim;stationaer Feuerwehrgeraetehaus Kervenheim;Kreis Kleve;51.6179;6.2902;Demo-Daten
+demo-krefeld-1;Notfall-Infopunkt Krefeld Zentrum;Von-der-Leyen-Platz 1, 47798 Krefeld;Notfall-Infopunkt;Krefeld;51.3331;6.5607;Demo-Daten
