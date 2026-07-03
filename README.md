@@ -6,6 +6,12 @@ Die App ist fuer die Verwendung im [Open Data App Store](https://open-data-app-s
 
 ---
 
+## Für wen ist diese App?
+
+Diese App zeigt offizielle Notfall-Anlaufstellen für Krisensituationen. Sie richtet sich an Bürger:innen, die für den Ernstfall vorsorgen möchten — inklusive Blackout-Checkliste und Navigation zur nächsten Anlaufstelle.
+
+---
+
 ## Funktionen
 
 Die App ist eine Single Page Application mit:

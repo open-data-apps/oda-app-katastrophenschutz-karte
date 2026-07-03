@@ -216,6 +216,8 @@ function app(configdata, enclosingHtmlDivElement) {
           </div>
         </div>
 
+        ${renderWeitereInfos(configdata)}
+        ${renderMethodikbox(configdata)}
         <div class="small text-muted mt-3">
           Datenbasis: ein konfigurierbarer Endpunkt über <code>apiurl</code> · Karte © OpenStreetMap contributors.
         </div>
@@ -282,7 +284,7 @@ function app(configdata, enclosingHtmlDivElement) {
         <div class="card border-primary h-100">
           <div class="card-body text-center py-3">
             <div class="fs-3 fw-bold text-primary">${formatNumber(total)}</div>
-            <div class="text-muted small">Standorte</div>
+            <div class="text-muted small">Standorte</div>\n              ${kpiContext(configdata.kpiKontext1, "1")}
           </div>
         </div>
       </div>
@@ -290,7 +292,7 @@ function app(configdata, enclosingHtmlDivElement) {
         <div class="card border-info h-100">
           <div class="card-body text-center py-3">
             <div class="fs-3 fw-bold text-info">${regions}</div>
-            <div class="text-muted small">Regionen</div>
+            <div class="text-muted small">Regionen</div>\n              ${kpiContext(configdata.kpiKontext2, "2")}
           </div>
         </div>
       </div>
@@ -298,7 +300,7 @@ function app(configdata, enclosingHtmlDivElement) {
         <div class="card border-warning h-100">
           <div class="card-body text-center py-3">
             <div class="fs-3 fw-bold text-warning">${types}</div>
-            <div class="text-muted small">Typgruppen</div>
+            <div class="text-muted small">Typgruppen</div>\n              ${kpiContext(configdata.kpiKontext3, "3")}
           </div>
         </div>
       </div>
@@ -306,7 +308,7 @@ function app(configdata, enclosingHtmlDivElement) {
         <div class="card border-success h-100">
           <div class="card-body text-center py-3">
             <div class="fs-3 fw-bold text-success">${nearestText}</div>
-            <div class="text-muted small">Nächste Stelle</div>
+            <div class="text-muted small">Nächste Stelle</div>\n              ${kpiContext(configdata.kpiKontext4, "4")}
           </div>
         </div>
       </div>
@@ -515,10 +517,13 @@ function app(configdata, enclosingHtmlDivElement) {
     const offlineBadge = state.isOffline
       ? '<span class="badge bg-danger me-2">Offline-Modus</span>'
       : '<span class="badge bg-success me-2">Live-Modus</span>';
+    const standHtml = appConfig.datenStand
+      ? '<small class="text-muted ms-2">' + escapeHtml(appConfig.datenStand) + '</small>'
+      : "";
     const locationText = state.userLocation
       ? `Standort gesetzt (${state.userLocation.latitude.toFixed(4)}, ${state.userLocation.longitude.toFixed(4)})`
       : "Standort noch nicht gesetzt";
-    status.innerHTML = `${offlineBadge}${escapeHtml(message || locationText)}${warningText}`;
+    status.innerHTML = `${offlineBadge}${standHtml}${escapeHtml(message || locationText)}${warningText}`;
   }
 
   function updateCacheInfo() {
@@ -1321,7 +1326,65 @@ function app(configdata, enclosingHtmlDivElement) {
     return {
       title: raw.titel || raw.title || "Katastrophenschutz-Karte",
       apiUrl: String(raw.apiurl || raw.apiUrl || KATASTROPHEN_DEFAULT_API_URL).trim(),
+      datenStand: String(raw.datenStand || "").trim(),
+      weiterfuehrendeLinks: raw.weiterfuehrendeLinks || "",
     };
+  }
+
+
+  /* ── Schale 4: KPI Kontext ── */
+  function kpiContext(kontext, id) {
+    var text = String(kontext || "").trim();
+    if (!text) return "";
+    var targetId = "ks-kpi-kontext-" + id;
+    return (
+      '<button class="ks-kpi-info-toggle collapsed" type="button" ' +
+      'data-bs-toggle="collapse" data-bs-target="#' + targetId + '" ' +
+      'aria-expanded="false" aria-controls="' + targetId + '" ' +
+      'aria-label="Erklärung zu diesem Wert">' +
+      '<span class="ks-kpi-info-icon" aria-hidden="true">ⓘ</span>' +
+      "</button>" +
+      '<div id="' + targetId + '" class="collapse">' +
+      '<div class="ks-kpi-kontext">' + escapeHtml(text) + "</div>" +
+      "</div>"
+    );
+  }
+
+  /* ── Schale 4: Methodikbox ── */
+  function renderMethodikbox(cfg) {
+    var hinweis = ((cfg && cfg.datenquelleHinweis) || "").trim();
+    var stand = ((cfg && cfg.datenStand) || "").trim();
+    if (!hinweis && !stand) return "";
+    var standHtml = stand
+      ? '<p class="text-muted small mb-2">' + escapeHtml(stand) + "</p>"
+      : "";
+    return (
+      '<section class="ks-methodik mt-3">' +
+      '<button class="ks-methodik-toggle collapsed" type="button" ' +
+      'data-bs-toggle="collapse" data-bs-target="#ks-methodik-body" ' +
+      'aria-expanded="false" aria-controls="ks-methodik-body">' +
+      '<h2 class="h5 mb-0">Methodik &amp; Datenquelle</h2>' +
+      '<span class="ks-methodik-chevron" aria-hidden="true">&#9662;</span>' +
+      "</button>" +
+      '<div id="ks-methodik-body" class="collapse">' +
+      '<div class="ks-methodik-content">' +
+      standHtml +
+      hinweis +
+      "</div></div></section>"
+    );
+  }
+
+  function renderWeitereInfos(cfg) {
+    var links = String((cfg && cfg.weiterfuehrendeLinks) || "").trim();
+    if (!links) return "";
+    return (
+      '<section class="ks-section ks-weitere-infos mt-3">' +
+      "<h3>Weitere Informationen</h3>" +
+      "<div>" +
+      links +
+      "</div>" +
+      "</section>"
+    );
   }
 }
 

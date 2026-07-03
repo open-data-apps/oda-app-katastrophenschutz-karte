@@ -1,5 +1,12 @@
 # Changelog
 
+## 03.07.2026 (Version 1.2.0)
+
+- ENH: Weiterführende Links (BBK + KRZN) als konfigurierbaren Abschnitt ergänzt (`weiterfuehrendeLinks`).
+- ENH: Datenstand-Anzeige neben Modus-Badge implementiert (`datenStand`).
+- ENH: CSS-Präfix `ks-` für App-spezifische Styles eingeführt.
+- DOC: Für-wen-Abschnitt in Beschreibung und README ergänzt.
+
 ## 26.05.2026 (Version 1.0.2)
 
 - App umbenannt in **Katastrophenschutz-Karte** (zuvor *BlackoutMap*).

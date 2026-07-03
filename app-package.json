@@ -3,13 +3,17 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "katastrophenschutz-karte",
   "name": "Katastrophenschutz-Karte",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
   "kurzbeschreibung": "Interaktive Karte offizieller Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttuerme aus einer konfigurierbaren Einzelquelle.",
   "beschreibung": [
     "_multiline_",
     "Katastrophenschutz-Karte unterstuetzt Buergerinnen und Buerger dabei, bei Strom- oder Kommunikationsausfaellen die naechstgelegenen offiziellen Notfall-Anlaufstellen zu finden.",
+    "",
+    "## Für wen ist diese App?",
+    "Diese App zeigt offizielle Notfall-Anlaufstellen für Krisensituationen. Sie richtet sich an Bürger:innen, die für den Ernstfall vorsorgen möchten — inklusive Blackout-Checkliste und Navigation zur nächsten Anlaufstelle.",
+    "",
     "Die App verarbeitet genau einen ueber apiurl konfigurierten Endpunkt und visualisiert die normalisierten Standorte auf Karte, Tabelle und Detailansicht.",
     "Unterstuetzt werden JSON-, CSV- und WFS/GML-Endpunkte, sofern die Datensaetze Name, Adresse, Region und Koordinaten enthalten oder herleitbar machen.",
     "Ein lokaler Beispieldatensatz in assets/daten-beispiel.csv dient als robuste Standardquelle fuer Entwicklung und ODAS-Tests."
@@ -171,6 +175,24 @@
       "default": "../assets/daten-beispiel.csv",
       "beispiel": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
       "erforderlich": "ja"
+    },
+    "weiterfuehrendeLinks": {
+      "label": "Weiterführende Links",
+      "hilfe": "Verwandte Datensätze / Hintergrundquellen (HTML/Markdown). Leer = ausgeblendet.",
+      "format": {
+        "typ": "markdown"
+      },
+      "default": "<ul><li><a href='https://www.bbk.bund.de/' target='_blank' rel='noopener'>Bundesamt für Bevölkerungsschutz und Katastrophenhilfe (BBK)</a></li><li><a href='https://www.krzn.de/' target='_blank' rel='noopener'>Kommunales Rechenzentrum Niederrhein (KRZN)</a></li></ul>",
+      "erforderlich": "nein"
+    },
+    "datenStand": {
+      "label": "Datenstand",
+      "hilfe": "Freitext-Hinweis zum Stand der Daten. Leer = ausgeblendet.",
+      "format": {
+        "typ": "string"
+      },
+      "default": "Stand: abhängig von Datenquelle",
+      "erforderlich": "nein"
     },
     "sprache": {
       "label": "Sprache der App",
