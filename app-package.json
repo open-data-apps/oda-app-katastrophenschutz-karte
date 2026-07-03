@@ -18,9 +18,24 @@
     "Unterstuetzt werden JSON-, CSV- und WFS/GML-Endpunkte, sofern die Datensaetze Name, Adresse, Region und Koordinaten enthalten oder herleitbar machen.",
     "Ein lokaler Beispieldatensatz in assets/daten-beispiel.csv dient als robuste Standardquelle fuer Entwicklung und ODAS-Tests."
   ],
-  "tags-funktion": ["Karte", "Filter", "Standort", "Offline", "Notfall"],
-  "tags-dateityp": ["JSON", "CSV", "WFS", "GML"],
-  "tags-datenart": ["Bevoelkerungsschutz", "Geodaten", "Infrastruktur"],
+  "tags-funktion": [
+    "Karte",
+    "Filter",
+    "Standort",
+    "Offline",
+    "Notfall"
+  ],
+  "tags-dateityp": [
+    "JSON",
+    "CSV",
+    "WFS",
+    "GML"
+  ],
+  "tags-datenart": [
+    "Bevoelkerungsschutz",
+    "Geodaten",
+    "Infrastruktur"
+  ],
   "screenshots": [
     "assets/Desktop_Screenshot.png",
     "assets/Mobile_Screenshot.png"
@@ -199,10 +214,61 @@
       "hilfe": "Angabe der App-Sprache.",
       "format": {
         "typ": "dropdown",
-        "optionen": ["de"],
+        "optionen": [
+          "de"
+        ],
         "default": "de"
       },
       "erforderlich": "ja"
+    },
+    "datenquelleHinweis": {
+      "label": "Methodik / Datenquelle-Hinweis",
+      "hilfe": "Herkunft, Erhebungsmethode und Limitierungen (HTML/Markdown). Leer = ausgeblendet.",
+      "format": {
+        "typ": "markdown"
+      },
+      "default": "<p>Die Standortdaten werden aus verschiedenen Quellformaten (WFS/GML, JSON, CSV) automatisch erkannt und normalisiert. WFS/GML-Koordinaten im System EPSG:25832 werden nach WGS84 (GPS-Standard) konvertiert. Ausreißer-Koordinaten außerhalb plausibler deutscher Grenzen werden erkannt und normalisiert. Typgruppen (Leuchtturm, Notrufstelle, Infopunkt, Anlaufstelle) werden anhand von Schlüsselwörtern im Namen klassifiziert. Die Entfernungsberechnung verwendet die Haversine-Formel.</p>",
+      "erforderlich": "nein"
+    },
+    "kpiKontext1": {
+      "label": "KPI-Erklärung 1: Standorte (gefiltert)",
+      "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
+      "format": {
+        "typ": "string",
+        "laenge": 250
+      },
+      "default": "",
+      "erforderlich": "nein"
+    },
+    "kpiKontext2": {
+      "label": "KPI-Erklärung 2: Regionen",
+      "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
+      "format": {
+        "typ": "string",
+        "laenge": 250
+      },
+      "default": "",
+      "erforderlich": "nein"
+    },
+    "kpiKontext3": {
+      "label": "KPI-Erklärung 3: Typgruppen",
+      "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
+      "format": {
+        "typ": "string",
+        "laenge": 250
+      },
+      "default": "",
+      "erforderlich": "nein"
+    },
+    "kpiKontext4": {
+      "label": "KPI-Erklärung 4: Nächste Stelle (km)",
+      "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
+      "format": {
+        "typ": "string",
+        "laenge": 250
+      },
+      "default": "",
+      "erforderlich": "nein"
     }
   }
 }
