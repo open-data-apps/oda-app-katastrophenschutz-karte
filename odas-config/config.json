@@ -5,11 +5,19 @@
   "lizenz": "Open Software License (OSL)",
   "icon": "logo_ondics.png",
   "beschreibung": [
-    "Katastrophenschutz-Karte zeigt offizielle Notfall-Anlaufstellen, Notrufstellen, Notfall-Infopunkte und Leuchttuerme aus einer einzelnen konfigurierten Quelle.<br>",
-    "Die App unterstuetzt Filter, Standortbezug, Detailansicht und einen Offline-Cache fuer zuletzt erfolgreich geladene Daten.<br><br>",
-    "## Für wen ist diese App?<br><br>",
-    "Diese App zeigt offizielle Notfall-Anlaufstellen für Krisensituationen. Sie richtet sich an Bürger:innen, die für den Ernstfall vorsorgen möchten — inklusive Blackout-Checkliste und Navigation zur nächsten Anlaufstelle.<br><br>",
-    "Standardquelle fuer lokale Entwicklung und ODAS-Tests ist die gebuendelte Datei <code>../assets/daten-beispiel.csv</code>."
+    "<p>Die Katastrophenschutz-Karte zeigt offizielle Notfall-Anlaufstellen, Notrufstellen, Infopunkte und ähnliche Orte auf einer interaktiven Karte.</p>",
+    "<p>Sie unterstützt dabei, Standorte, Zuständigkeiten und Erreichbarkeit in einer Lage schnell zu überblicken.</p>",
+    "<h3>Inhalte</h3>",
+    "<p>Die App verarbeitet Standortdaten mit Name, Adresse, Typ, Region und Koordinaten. Filter, Detailansichten, Standortbezug und ein Offline-Cache für zuletzt geladene Daten unterstützen die Nutzung im Alltag und in Übungssituationen.</p>",
+    "<h3>Nutzung</h3>",
+    "<p>Wählen Sie einen Standorttyp oder eine Region, öffnen Sie Detailinformationen und nutzen Sie bei Bedarf den eigenen Standort zur Orientierung. Die App ersetzt keine amtlichen Warnungen oder Einsatzanweisungen.</p>",
+    "<h3>Für wen ist diese App?</h3>",
+    "<p>Die App richtet sich an Bürger:innen, Verwaltung, Katastrophenschutz und kommunale Fachstellen, die Notfall-Infrastruktur verständlich darstellen möchten. Besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.</p>",
+    "<h3>Datenquelle</h3>",
+    "<p>Die App kann unterschiedliche Quellformate normalisieren; die konkrete Quelle wird über die App-Konfiguration festgelegt.</p>",
+    "<ul><li><strong>Open Data Portal:</strong> <a href=\"https://www.govdata.de/\" target=\"_blank\" rel=\"noopener\">GovData</a></li><li><strong>Datensatzsuche:</strong> <a href=\"https://www.govdata.de/ckan/api/3/action/package_search?q=notfall+anlaufstellen&amp;rows=50\" target=\"_blank\" rel=\"noopener\">Suche nach Notfall-Anlaufstellen</a></li><li><strong>Ressource/API-Endpunkt:</strong> <a href=\"../assets/daten-beispiel.csv\" target=\"_blank\" rel=\"noopener\">Beispiel-CSV der App</a></li></ul>",
+    "<h3>Open Data App Store</h3>",
+    "<p>Diese App ist für den Open Data App Store vorbereitet und kann von Kommunen mit eigenen Katastrophenschutz- oder Notfallstandortdaten konfiguriert werden.</p>"
   ],
   "kontakt": [
     "Sie sind zufrieden mit der App oder haben Anregungen, Verbesserungen oder Hinweise?<br>",
@@ -40,45 +48,9 @@
   "weiterfuehrendeLinks": "<ul><li><a href='https://www.bbk.bund.de/' target='_blank' rel='noopener'>Bundesamt für Bevölkerungsschutz und Katastrophenhilfe (BBK)</a></li><li><a href='https://www.krzn.de/' target='_blank' rel='noopener'>Kommunales Rechenzentrum Niederrhein (KRZN)</a></li></ul>",
   "datenStand": "Stand: abhängig von Datenquelle",
   "sprache": "de",
-  "datenquelleHinweis": "WFS/GML-XML-Parsing, EPSG:25832→WGS84-Konvertierung (Helmert-Transformation), Typ-Klassifizierung (Leuchtturm/Notrufstelle/Infopunkt/Anlaufstelle) aus Text-Heuristiken.",
-  "kpiKontext1": {
-    "label": "KPI Kontext 1",
-    "hilfe": "Erklärungstext für KPI-Kachel 1",
-    "format": {
-      "typ": "string",
-      "laenge": 250
-    },
-    "default": "",
-    "erforderlich": "nein"
-  },
-  "kpiKontext2": {
-    "label": "KPI Kontext 2",
-    "hilfe": "Erklärungstext für KPI-Kachel 2",
-    "format": {
-      "typ": "string",
-      "laenge": 250
-    },
-    "default": "",
-    "erforderlich": "nein"
-  },
-  "kpiKontext3": {
-    "label": "KPI Kontext 3",
-    "hilfe": "Erklärungstext für KPI-Kachel 3",
-    "format": {
-      "typ": "string",
-      "laenge": 250
-    },
-    "default": "",
-    "erforderlich": "nein"
-  },
-  "kpiKontext4": {
-    "label": "KPI Kontext 4",
-    "hilfe": "Erklärungstext für KPI-Kachel 4",
-    "format": {
-      "typ": "string",
-      "laenge": 250
-    },
-    "default": "",
-    "erforderlich": "nein"
-  }
+  "datenquelleHinweis": "<p>Die Standortdaten werden aus verschiedenen Quellformaten (WFS/GML, JSON, CSV) automatisch erkannt und normalisiert. Die App zeigt Notfall-Anlaufstellen, Typen, Regionen und Koordinaten aus der konfigurierten Einzelquelle; Vollständigkeit und Aktualität hängen vom jeweiligen Datenbereitsteller ab.</p>",
+  "kpiKontext1": "Anzahl der Notfall-Anlaufstellen und Infopunkte im aktuell gefilterten Gebiet. Zeigt die Dichte des Katastrophenschutz-Netzes.",
+  "kpiKontext2": "Anzahl der verschiedenen Regionen, in denen Einrichtungen vorhanden sind. Zeigt die räumliche Abdeckung des Schutznetzes.",
+  "kpiKontext3": "Anzahl der verschiedenen Einrichtungstypen (z.B. Notunterkunft, Infopunkt, Leuchtturm). Zeigt die Vielfalt der Schutzangebote.",
+  "kpiKontext4": "Entfernung zur nächstgelegenen Katastrophenschutz-Einrichtung von Ihrem Standort. Zeigt die Erreichbarkeit von Hilfe im Ernstfall."
 }
