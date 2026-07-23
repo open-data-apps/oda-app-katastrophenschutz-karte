@@ -7,6 +7,84 @@ const KATASTROPHEN_DEFAULT_API_URL = "../assets/daten-beispiel.csv";
 const KATASTROPHEN_TABLE_LIMIT = 500;
 const KATASTROPHEN_MAX_RECORDS = 10000;
 
+function isOdasProxyEnabled(configdata = {}) {
+  return String(configdata.proxyAktiv || "").trim().toLowerCase() === "ja";
+}
+
+function extractPathFromUrl(url) {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.pathname + parsedUrl.search;
+  } catch (_error) {
+    return String(url || "");
+  }
+}
+
+function getOdasAppBasePath(pathname) {
+  let appPath =
+    pathname === undefined
+      ? typeof window !== "undefined"
+        ? window.location.pathname
+        : "/"
+      : String(pathname || "/");
+
+  if (!appPath.endsWith("/")) {
+    const lastSlashIndex = appPath.lastIndexOf("/");
+    const lastSegment = appPath.substring(lastSlashIndex + 1);
+    if (lastSegment.includes(".")) {
+      appPath = appPath.substring(0, lastSlashIndex + 1);
+    }
+  }
+
+  return appPath.replace(/\/+$/, "");
+}
+
+function getOdasProxyEndpoint(targetUrl, pathname) {
+  const appPath = getOdasAppBasePath(pathname);
+  return `${appPath}/odp-data?path=${encodeURIComponent(
+    extractPathFromUrl(targetUrl),
+  )}`;
+}
+
+async function fetchViaOdasProxy(targetUrl) {
+  const response = await fetch(getOdasProxyEndpoint(targetUrl), {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error(`ODAS-Proxy-Fehler: HTTP ${response.status}`);
+  }
+
+  const proxyData = await response.json();
+  if (!proxyData || typeof proxyData.content !== "string") {
+    throw new Error("ODAS-Proxy-Antwort enthält keinen content-String.");
+  }
+
+  return proxyData.content;
+}
+
+async function fetchOdasResource(targetUrl, configdata = {}) {
+  if (isOdasProxyEnabled(configdata)) {
+    return fetchViaOdasProxy(targetUrl);
+  }
+
+  try {
+    const response = await fetch(targetUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return response.text();
+  } catch (error) {
+    throw new Error(
+      `Direkter Datenabruf fehlgeschlagen (${error.message}). Bitte prüfen Sie die Daten-URL und die CORS-Freigabe der Datenquelle.`,
+    );
+  }
+}
+
+async function fetchOdasJson(targetUrl, configdata = {}) {
+  return JSON.parse(await fetchOdasResource(targetUrl, configdata));
+}
+
 function app(configdata, enclosingHtmlDivElement) {
   const instanceId =
     "katastrophenschutz-karte-" + Math.random().toString(36).slice(2, 9);
@@ -678,46 +756,15 @@ function app(configdata, enclosingHtmlDivElement) {
     return parseCsv(text, "CSV", "csv");
   }
 
+  // Datenabruf: direkt oder ueber den ODAS-Proxy (proxyAktiv)
   async function fetchTextWithProxyFallback(url) {
     try {
-      const response = await fetch(url, { cache: "no-store" });
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status} ${response.statusText}`);
-      }
-      return await response.text();
-    } catch (directError) {
-      if (isLocalHost(window.location.hostname)) {
-        throw directError;
-      }
-      try {
-        return await fetchViaProxy(url);
-      } catch (proxyError) {
-        throw new Error(
-          `Abruf fehlgeschlagen (${shortenUrl(url)}): ${directError.message}; Proxy: ${proxyError.message}`,
-        );
-      }
-    }
-  }
-
-  function extractPathFromUrl(url) {
-    try {
-      const parsed = new URL(url);
-      return parsed.pathname + parsed.search;
+      return await fetchOdasResource(url, configdata);
     } catch (error) {
-      return url;
+      throw new Error(
+        `Abruf fehlgeschlagen (${shortenUrl(url)}): ${error.message}`,
+      );
     }
-  }
-
-  async function fetchViaProxy(targetUrl) {
-    const fullPath = window.location.pathname.replace(/\/+$/, "");
-    const apiPath = extractPathFromUrl(targetUrl);
-    const proxyEndpoint = `${fullPath}/odp-data?path=${encodeURIComponent(apiPath)}`;
-    const response = await fetch(proxyEndpoint, { method: "POST" });
-    if (!response.ok) {
-      throw new Error(`Proxy-Fehler: HTTP ${response.status}`);
-    }
-    const proxyData = await response.json();
-    return proxyData.content;
   }
 
   function parseKrznGml(xmlText, layer) {
@@ -1312,10 +1359,6 @@ function app(configdata, enclosingHtmlDivElement) {
 
   function shortenUrl(url) {
     return url.length > 90 ? `${url.slice(0, 87)}...` : url;
-  }
-
-  function isLocalHost(hostname) {
-    return ["127.0.0.1", "localhost", "::1"].includes(hostname);
   }
 
   function byId(suffix) {
