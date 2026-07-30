@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "katastrophenschutz-karte",
   "name": "Katastrophenschutz-Karte",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
   "kurzbeschreibung": "Interaktive Karte offizieller Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttuerme aus einer konfigurierbaren Einzelquelle.",
@@ -204,7 +204,7 @@
         "typ": "url",
         "laenge": 255
       },
-      "default": "../assets/daten-beispiel.csv",
+      "default": "assets/daten-beispiel.csv",
       "beispiel": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
       "erforderlich": "ja"
     },
