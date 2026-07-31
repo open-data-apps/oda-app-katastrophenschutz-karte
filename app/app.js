@@ -1368,7 +1368,7 @@ function app(configdata, enclosingHtmlDivElement) {
   function buildAppConfig(raw) {
     return {
       title: raw.titel || raw.title || "Katastrophenschutz-Karte",
-      apiUrl: String(raw.apiurl || raw.apiUrl || KATASTROPHEN_DEFAULT_API_URL).trim(),
+      apiUrl: String(raw.apiurl || KATASTROPHEN_DEFAULT_API_URL).trim(),
       datenStand: String(raw.datenStand || "").trim(),
       weiterfuehrendeLinks: raw.weiterfuehrendeLinks || "",
     };

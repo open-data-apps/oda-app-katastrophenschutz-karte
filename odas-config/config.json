@@ -3,7 +3,6 @@
   "proxyAktiv": "nein",
   "titel": "Katastrophenschutz-Karte",
   "seitentitel": "Katastrophenschutz-Karte",
-  "lizenz": "Open Software License (OSL)",
   "icon": "logo_ondics.png",
   "beschreibung": [
     "<p>Die Katastrophenschutz-Karte zeigt offizielle Notfall-Anlaufstellen, Notrufstellen, Infopunkte und ähnliche Orte auf einer interaktiven Karte.</p>",
@@ -53,5 +52,7 @@
   "kpiKontext1": "Anzahl der Notfall-Anlaufstellen und Infopunkte im aktuell gefilterten Gebiet. Zeigt die Dichte des Katastrophenschutz-Netzes.",
   "kpiKontext2": "Anzahl der verschiedenen Regionen, in denen Einrichtungen vorhanden sind. Zeigt die räumliche Abdeckung des Schutznetzes.",
   "kpiKontext3": "Anzahl der verschiedenen Einrichtungstypen (z.B. Notunterkunft, Infopunkt, Leuchtturm). Zeigt die Vielfalt der Schutzangebote.",
-  "kpiKontext4": "Entfernung zur nächstgelegenen Katastrophenschutz-Einrichtung von Ihrem Standort. Zeigt die Erreichbarkeit von Hilfe im Ernstfall."
+  "kpiKontext4": "Entfernung zur nächstgelegenen Katastrophenschutz-Einrichtung von Ihrem Standort. Zeigt die Erreichbarkeit von Hilfe im Ernstfall.",
+  "brandingCSS": "",
+  "brandingCSSFile": "../assets/branding.css"
 }
