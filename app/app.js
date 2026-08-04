@@ -1240,12 +1240,12 @@ function app(configdata, enclosingHtmlDivElement) {
         const link = document.createElement("link");
         link.id = "katastrophen-leaflet-css";
         link.rel = "stylesheet";
-        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        link.href = "vendor/leaflet/leaflet.css";
         document.head.appendChild(link);
       }
       const script = document.createElement("script");
       script.id = "katastrophen-leaflet-js";
-      script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+      script.src = "vendor/leaflet/leaflet.js";
       script.onload = resolve;
       script.onerror = () => reject(new Error("Leaflet-Skript konnte nicht geladen werden."));
       document.head.appendChild(script);
