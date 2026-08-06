@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.11.0 - 2026-08-06
+- FIX: Drittanbietersektion nennt keine Beim-Aufruf-Behauptung mehr (Welle G)
+
 ## 1.10.0 - 2026-08-06
 - FIX: Base auf Template oda-generic 1.6.0 vereinheitlicht (Hook renderPageOverride)
 
