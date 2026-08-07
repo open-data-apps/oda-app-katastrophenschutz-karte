@@ -3,6 +3,8 @@
  * ODAS-App für offizielle Notfall-Anlaufstellen, Notrufstellen,
  * Infopunkte und Leuchttürme aus genau einer konfigurierten Datenquelle.
  */
+let ksInstanzZaehler = 0;
+
 const KATASTROPHEN_DEFAULT_API_URL = "../assets/daten-beispiel.csv";
 const KATASTROPHEN_TABLE_LIMIT = 500;
 const KATASTROPHEN_MAX_RECORDS = 10000;
@@ -86,6 +88,7 @@ async function fetchOdasJson(targetUrl, configdata = {}) {
 }
 
 function app(configdata, enclosingHtmlDivElement) {
+  const ksUid = "i" + ++ksInstanzZaehler;
   const instanceId =
     "katastrophenschutz-karte-" + Math.random().toString(36).slice(2, 9);
   const storageKey = "katastrophenschutz.cache.v1";
@@ -1379,7 +1382,7 @@ function app(configdata, enclosingHtmlDivElement) {
   function kpiContext(kontext, id) {
     var text = String(kontext || "").trim();
     if (!text) return "";
-    var targetId = "ks-kpi-kontext-" + id;
+    var targetId = "ks-kpi-kontext-" + id + "-" + ksUid;
     return (
       '<button class="ks-kpi-info-toggle collapsed" type="button" ' +
       'data-bs-toggle="collapse" data-bs-target="#' + targetId + '" ' +
@@ -1404,12 +1407,12 @@ function app(configdata, enclosingHtmlDivElement) {
     return (
       '<section class="ks-methodik mt-3">' +
       '<button class="ks-methodik-toggle collapsed" type="button" ' +
-      'data-bs-toggle="collapse" data-bs-target="#ks-methodik-body" ' +
-      'aria-expanded="false" aria-controls="ks-methodik-body">' +
+      'data-bs-toggle="collapse" data-bs-target="#ks-methodik-body-' + ksUid + '" ' +
+      'aria-expanded="false" aria-controls="ks-methodik-body-' + ksUid + '">' +
       '<h2 class="h5 mb-0">Methodik &amp; Datenquelle</h2>' +
       '<span class="ks-methodik-chevron" aria-hidden="true">&#9662;</span>' +
       "</button>" +
-      '<div id="ks-methodik-body" class="collapse">' +
+      '<div id="ks-methodik-body-' + ksUid + '" class="collapse">' +
       '<div class="ks-methodik-content">' +
       standHtml +
       hinweis +
