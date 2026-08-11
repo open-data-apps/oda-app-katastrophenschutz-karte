@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.15.0 - 2026-08-11
+- FIX: Späte Geolocation-Erfolgs- und Fehlercallbacks brechen nach dem Seitenwechsel ohne DOM- oder Karten-Update ab (F-43-Nachtrag)
+
 ## 1.14.0 - 2026-08-11
 - FIX: Laufzeitressourcen beim Seitenwechsel freigeben (F-43): neuer Top-Level-Hook `onPageLeave(page)`, der die window-weiten `online`/`offline`-Listener (im Instanz-State gesammelt) entfernt und die Leaflet-Karte zerstört; das `disposed`-Flag macht späte Async-Renders (nach Datenabruf und `loadLeaflet`) wirkungslos
 

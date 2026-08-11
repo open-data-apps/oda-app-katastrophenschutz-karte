@@ -679,6 +679,7 @@ function app(configdata, enclosingHtmlDivElement) {
     }
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        if (state.disposed) return;
         state.userLocation = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -688,6 +689,7 @@ function app(configdata, enclosingHtmlDivElement) {
         updateAll();
       },
       (error) => {
+        if (state.disposed) return;
         button.disabled = false;
         button.textContent = "Standort verwenden";
         updateStatus("Standort konnte nicht ermittelt werden: " + error.message);
