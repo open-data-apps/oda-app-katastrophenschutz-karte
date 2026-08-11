@@ -5,6 +5,12 @@
  */
 let ksInstanzZaehler = 0;
 
+// F-43: Registrierte Instanzen (Container -> State), damit der Top-Level-Hook
+// onPageLeave() alle gemounteten Instanzen aufraeumen kann. Die Base ruft den
+// Hook global ohne Container-Parameter auf; eine iterierbare Map ist daher das
+// zur App passende Muster (schulwegsicherheit-Portfoliomuster).
+const katastrophenInstances = new Map();
+
 const KATASTROPHEN_DEFAULT_API_URL = "../assets/daten-beispiel.csv";
 const KATASTROPHEN_TABLE_LIMIT = 500;
 const KATASTROPHEN_MAX_RECORDS = 10000;
@@ -87,6 +93,33 @@ async function fetchOdasJson(targetUrl, configdata = {}) {
   return JSON.parse(await fetchOdasResource(targetUrl, configdata));
 }
 
+/*
+ * Template-Hook (oda-generic 1.4.0). Die Base ruft ihn vor dem Rendern der neuen
+ * Seite auf. Diese App haelt window-weite online/offline-Listener und eine
+ * Leaflet-Karte; der Hook entfernt die Listener und die Karte und macht späte
+ * Async-Renders durch das disposed-Flag wirkungslos.
+ */
+function onPageLeave(page) {
+  katastrophenInstances.forEach((state, container) => {
+    state.disposed = true;
+    (state.listeners || []).forEach(([element, type, fn]) =>
+      element.removeEventListener(type, fn),
+    );
+    state.listeners = [];
+    if (state.map) {
+      try {
+        state.map.remove();
+      } catch (error) {
+        console.warn("Fehler beim Entfernen der Leaflet-Karte:", error);
+      }
+      state.map = null;
+    }
+    state.markerLayer = null;
+    state.userLayer = null;
+    katastrophenInstances.delete(container);
+  });
+}
+
 function app(configdata, enclosingHtmlDivElement) {
   const ksUid = "i" + ++ksInstanzZaehler;
   const instanceId =
@@ -108,21 +141,32 @@ function app(configdata, enclosingHtmlDivElement) {
     currentSearch: "",
     currentRadius: "",
     sortMode: "distance",
+    listeners: [],
+    disposed: false,
   };
+
+  katastrophenInstances.set(enclosingHtmlDivElement, state);
 
   renderLoading();
 
-  window.addEventListener("online", () => {
+  const handleOnline = () => {
     state.isOffline = false;
     updateStatus();
-  });
-  window.addEventListener("offline", () => {
+  };
+  const handleOffline = () => {
     state.isOffline = true;
     updateStatus();
-  });
+  };
+  window.addEventListener("online", handleOnline);
+  window.addEventListener("offline", handleOffline);
+  state.listeners.push(
+    [window, "online", handleOnline],
+    [window, "offline", handleOffline],
+  );
 
   loadAllData()
     .then((records) => {
+      if (state.disposed) return;
       if (!records.length) {
         throw new Error("Die Datenquellen haben keine auswertbaren Standorte geliefert.");
       }
@@ -134,6 +178,7 @@ function app(configdata, enclosingHtmlDivElement) {
       renderMapWhenReady();
     })
     .catch((error) => {
+      if (state.disposed) return;
       const cached = readCache();
       if (cached.records.length) {
         state.isOffline = true;
@@ -513,10 +558,12 @@ function app(configdata, enclosingHtmlDivElement) {
   function renderMapWhenReady() {
     loadLeaflet()
       .then(() => {
+        if (state.disposed) return;
         initialiseMap();
         renderMapMarkers();
       })
       .catch((error) => {
+        if (state.disposed) return;
         const mapEl = byId("map");
         if (mapEl) {
           mapEl.innerHTML = `

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.0 - 2026-08-11
+- FIX: Laufzeitressourcen beim Seitenwechsel freigeben (F-43): neuer Top-Level-Hook `onPageLeave(page)`, der die window-weiten `online`/`offline`-Listener (im Instanz-State gesammelt) entfernt und die Leaflet-Karte zerstört; das `disposed`-Flag macht späte Async-Renders (nach Datenabruf und `loadLeaflet`) wirkungslos
+
 ## 1.13.0 - 2026-08-07
 - CHG: Bootstrap-Ziele instanzeindeutig (F-32): KPI-Kontext- und Methodik-Ziele (`#ks-kpi-kontext-<id>` und `#ks-methodik-body`) um eine Instanzkennung ergänzt — mehrere Instanzen derselben App auf einer Seite klappen ihre Panels unabhängig auf (die bestehende `instanceId`-Mechanik für die Karten-IDs bleibt unverändert)
 
