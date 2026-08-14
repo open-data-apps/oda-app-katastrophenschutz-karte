@@ -11,7 +11,6 @@ let ksInstanzZaehler = 0;
 // zur App passende Muster (schulwegsicherheit-Portfoliomuster).
 const katastrophenInstances = new Map();
 
-const KATASTROPHEN_DEFAULT_API_URL = "../assets/daten-beispiel.csv";
 const KATASTROPHEN_TABLE_LIMIT = 500;
 const KATASTROPHEN_MAX_RECORDS = 10000;
 
@@ -146,6 +145,13 @@ function app(configdata, enclosingHtmlDivElement) {
   };
 
   katastrophenInstances.set(enclosingHtmlDivElement, state);
+
+  const quelle = appConfig.apiUrl;
+  if (!quelle || /^\{\{.*\}\}$/.test(quelle) || /^<.*>$/.test(quelle)) {
+    enclosingHtmlDivElement.innerHTML =
+      '<div class="alert alert-info" role="alert">Es ist keine Datenquelle konfiguriert.</div>';
+    return null;
+  }
 
   renderLoading();
 
@@ -783,7 +789,11 @@ function app(configdata, enclosingHtmlDivElement) {
   }
 
   async function loadAllData() {
-    if (!appConfig.apiUrl) {
+    if (
+      !appConfig.apiUrl ||
+      /^\{\{.*\}\}$/.test(appConfig.apiUrl) ||
+      /^<.*>$/.test(appConfig.apiUrl)
+    ) {
       throw new Error("Keine Datenquelle konfiguriert (apiurl fehlt).");
     }
 
@@ -1420,7 +1430,7 @@ function app(configdata, enclosingHtmlDivElement) {
   function buildAppConfig(raw) {
     return {
       title: raw.titel || raw.title || "Katastrophenschutz-Karte",
-      apiUrl: String(raw.apiurl || KATASTROPHEN_DEFAULT_API_URL).trim(),
+      apiUrl: String(raw.apiurl || "").trim(),
       datenStand: String(raw.datenStand || "").trim(),
       weiterfuehrendeLinks: raw.weiterfuehrendeLinks || "",
     };
