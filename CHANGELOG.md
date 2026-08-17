@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 1.19.0 - 2026-08-17
+- `urlDaten` zeigte auf eine rohe CKAN-JSON-API-Abfrage (`.../ckan/api/3/action/package_search?...`) statt eine Seite für Menschen; jetzt auf die passende govdata.de-Suchergebnisseite verweisend (live verifiziert, HTTP 200) (F-68)
+
 ## 1.18.0 - 2026-08-17
 - `fetchOdasJson()` wirft jetzt bei nicht-JSON-Antworten (CSV, HTML, leerer Body) eine sprechende Konfigurationsfehlermeldung statt der rohen `JSON.parse`-Parserfehlermeldung (F-66)
 
