@@ -1,6 +1,10 @@
 # Changelog
 
 
+## 1.20.0 - 2026-08-20
+- FIX: `instanceId` verwendete `Math.random()` statt eines Zählers; `L.map()` erhält jetzt eine Element-Referenz statt einer String-ID (F-71)
+- FIX: Standorte ohne gültige Koordinaten werden jetzt gezählt und als Hinweis angezeigt statt kommentarlos verworfen (F-73)
+
 ## 1.19.0 - 2026-08-17
 - `urlDaten` zeigte auf eine rohe CKAN-JSON-API-Abfrage (`.../ckan/api/3/action/package_search?...`) statt eine Seite für Menschen; jetzt auf die passende govdata.de-Suchergebnisseite verweisend (live verifiziert, HTTP 200) (F-68)
 

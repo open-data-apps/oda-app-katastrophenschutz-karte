@@ -139,8 +139,10 @@ function onPageLeave(page) {
 
 function app(configdata, enclosingHtmlDivElement) {
   const ksUid = "i" + ++ksInstanzZaehler;
-  const instanceId =
-    "katastrophenschutz-karte-" + Math.random().toString(36).slice(2, 9);
+  // F-71: instanceId leitet sich aus demselben modul-globalen Zaehler wie
+  // ksUid ab (nicht Math.random()), damit IDs zwischen Instanzen deterministisch
+  // eindeutig und nicht nur "wahrscheinlich" eindeutig sind.
+  const instanceId = "katastrophenschutz-karte-" + ksInstanzZaehler;
   const storageKey = "katastrophenschutz.cache.v1";
   const appConfig = buildAppConfig(configdata || {});
   const state = {
@@ -149,6 +151,7 @@ function app(configdata, enclosingHtmlDivElement) {
     selectedId: "",
     userLocation: null,
     loadWarnings: [],
+    skippedRecords: 0,
     isOffline: !navigator.onLine,
     map: null,
     markerLayer: null,
@@ -207,6 +210,13 @@ function app(configdata, enclosingHtmlDivElement) {
         }
         renderEmpty();
         return;
+      }
+      if (state.skippedRecords > 0) {
+        // F-73: Verworfene Datensaetze ohne gueltige Koordinaten werden
+        // gezaehlt und als Hinweis angezeigt statt kommentarlos zu verschwinden.
+        state.loadWarnings.push(
+          `${state.skippedRecords} von ${records.length + state.skippedRecords} Standorten ohne gültige Koordinaten wurden nicht auf der Karte angezeigt.`,
+        );
       }
       state.allRecords = records;
       saveCache(records, "Automatisch nach Live-Abruf gespeichert");
@@ -624,7 +634,12 @@ function app(configdata, enclosingHtmlDivElement) {
 
   function initialiseMap() {
     if (state.map || !window.L) return;
-    state.map = L.map(`${instanceId}-map`, {
+    const mapElement = byId("map");
+    if (!mapElement) return;
+    // F-71: L.map() erhaelt eine Element-Referenz statt einer String-ID,
+    // damit Leaflet nicht intern per document.getElementById auf die
+    // instanzabhaengige ID angewiesen ist.
+    state.map = L.map(mapElement, {
       scrollWheelZoom: true,
       preferCanvas: true,
     }).setView([51.52, 7.1], 8);
@@ -983,7 +998,11 @@ function app(configdata, enclosingHtmlDivElement) {
         }),
       );
     }
-    return records.filter(hasCoordinates);
+    const withCoordinates = records.filter(hasCoordinates);
+    // F-73: Datensaetze ohne gueltige Koordinaten werden gezaehlt statt
+    // kommentarlos verworfen zu werden.
+    state.skippedRecords += records.length - withCoordinates.length;
+    return withCoordinates;
   }
 
   function normalizeJsonRecords(json, sourceLabel, sourceKey) {
@@ -996,31 +1015,34 @@ function app(configdata, enclosingHtmlDivElement) {
           : Array.isArray(json.result && json.result.records)
             ? json.result.records
             : [];
-    return records
-      .map((raw, index) => {
-        const record = raw.fields || raw;
-        const coords = extractCoordinatesFromObject(record);
-        return normalizeRecord({
-          id:
-            getValue(record, ["id", "fid", "objectid", "uuid"]) ||
-            `${sourceKey}-${index}`,
-          name:
-            getValue(record, ["name", "bezeichnung", "titel", "standort"]) ||
-            "Notfall-Anlaufstelle",
-          address:
-            getValue(record, ["address", "adresse", "anschrift", "strasse", "straße"]) ||
-            buildAddress(record),
-          type:
-            getValue(record, ["type", "typ", "art", "kategorie"]) ||
-            inferTypeFromName(JSON.stringify(record)),
-          region: getValue(record, ["region", "kommune", "stadt", "ort"]) || sourceLabel,
-          latitude: coords ? coords.latitude : null,
-          longitude: coords ? coords.longitude : null,
-          sourceLabel,
-          sourceKey,
-        });
-      })
-      .filter(hasCoordinates);
+    const normalized = records.map((raw, index) => {
+      const record = raw.fields || raw;
+      const coords = extractCoordinatesFromObject(record);
+      return normalizeRecord({
+        id:
+          getValue(record, ["id", "fid", "objectid", "uuid"]) ||
+          `${sourceKey}-${index}`,
+        name:
+          getValue(record, ["name", "bezeichnung", "titel", "standort"]) ||
+          "Notfall-Anlaufstelle",
+        address:
+          getValue(record, ["address", "adresse", "anschrift", "strasse", "straße"]) ||
+          buildAddress(record),
+        type:
+          getValue(record, ["type", "typ", "art", "kategorie"]) ||
+          inferTypeFromName(JSON.stringify(record)),
+        region: getValue(record, ["region", "kommune", "stadt", "ort"]) || sourceLabel,
+        latitude: coords ? coords.latitude : null,
+        longitude: coords ? coords.longitude : null,
+        sourceLabel,
+        sourceKey,
+      });
+    });
+    const withCoordinates = normalized.filter(hasCoordinates);
+    // F-73: Datensaetze ohne gueltige Koordinaten werden gezaehlt statt
+    // kommentarlos verworfen zu werden.
+    state.skippedRecords += normalized.length - withCoordinates.length;
+    return withCoordinates;
   }
 
   function normalizeRecord(input) {
