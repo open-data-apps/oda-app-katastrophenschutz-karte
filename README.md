@@ -38,7 +38,7 @@ Unterstuetzte Formate:
 - **JSON** als Array oder Objekt mit `results`, `records` oder `result.records`
 - **WFS/GML** als direkter GetFeature-Endpunkt mit Geometrien, die in WGS84 oder EPSG:25832 lesbar sind
 
-Bei externen Quellen versucht die App zuerst den Direktabruf. Wenn das im ODAS-Betrieb scheitert, folgt automatisch ein Abruf ueber den ODAS-Proxy.
+Bei externen Quellen steuert der Konfigurationsparameter `proxyAktiv` ("ja"/"nein"), ob der Abruf direkt durch den Browser oder über den ODAS-Proxy erfolgt.
 
 ### Standardquelle
 

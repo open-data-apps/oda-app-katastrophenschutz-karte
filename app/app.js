@@ -192,7 +192,21 @@ function app(configdata, enclosingHtmlDivElement) {
     .then((records) => {
       if (state.disposed) return;
       if (!records.length) {
-        throw new Error("Die Datenquellen haben keine auswertbaren Standorte geliefert.");
+        const cached = readCache();
+        if (cached.records.length) {
+          state.isOffline = true;
+          state.loadWarnings.push(
+            "Aktuelle Datenquelle lieferte keine Standorte. Es werden zwischengespeicherte Daten angezeigt.",
+          );
+          state.allRecords = cached.records;
+          renderShell();
+          bindEvents();
+          updateAll();
+          renderMapWhenReady();
+          return;
+        }
+        renderEmpty();
+        return;
       }
       state.allRecords = records;
       saveCache(records, "Automatisch nach Live-Abruf gespeichert");
@@ -234,12 +248,21 @@ function app(configdata, enclosingHtmlDivElement) {
     `;
   }
 
+  function renderEmpty() {
+    enclosingHtmlDivElement.innerHTML = `
+      <div class="alert alert-info mt-4" role="alert">
+        <h2 class="h5 alert-heading">${escapeHtml(appConfig.title)}</h2>
+        <p class="mb-0">Die Datenquelle enthält derzeit keine auswertbaren Standorte.</p>
+      </div>
+    `;
+  }
+
   function renderError(error) {
     enclosingHtmlDivElement.innerHTML = `
       <div class="alert alert-danger mt-4" role="alert">
         <h2 class="h5 alert-heading">Daten konnten nicht geladen werden</h2>
         <p class="mb-2">${escapeHtml(error.message || String(error))}</p>
-        <p class="mb-0 small">Bitte prüfen Sie den konfigurierten Endpunkt in <code>apiurl</code>. Die App versucht externe Quellen automatisch zuerst direkt und danach über den ODAS-Proxy zu laden.</p>
+        <p class="mb-0 small">Bitte prüfen Sie den konfigurierten Endpunkt in <code>apiurl</code> sowie die Einstellung von <code>proxyAktiv</code> in der Instanz-Konfiguration.</p>
       </div>
     `;
   }
