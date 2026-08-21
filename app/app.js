@@ -88,6 +88,17 @@ async function fetchOdasResource(targetUrl, configdata = {}) {
   }
 }
 
+/**
+ * Löst eine benannte Datenressource aus configdata.apiurls auf.
+ * Neue apiurls-Form (typ: "array"); das frühere skalare apiurl wird nicht mehr gelesen.
+ * @returns {string} getrimmte URL, oder "" für den Zustand "keine Quelle konfiguriert"
+ */
+function getOdasApiUrl(configdata, name) {
+  const liste = Array.isArray(configdata && configdata.apiurls) ? configdata.apiurls : [];
+  const treffer = liste.find((eintrag) => eintrag && eintrag.name === name);
+  return String((treffer && treffer.url) || "").trim();
+}
+
 async function fetchOdasJson(targetUrl, configdata = {}) {
   const rawContent = await fetchOdasResource(targetUrl, configdata);
   try {
@@ -272,7 +283,7 @@ function app(configdata, enclosingHtmlDivElement) {
       <div class="alert alert-danger mt-4" role="alert">
         <h2 class="h5 alert-heading">Daten konnten nicht geladen werden</h2>
         <p class="mb-2">${escapeHtml(error.message || String(error))}</p>
-        <p class="mb-0 small">Bitte prüfen Sie den konfigurierten Endpunkt in <code>apiurl</code> sowie die Einstellung von <code>proxyAktiv</code> in der Instanz-Konfiguration.</p>
+        <p class="mb-0 small">Bitte prüfen Sie den konfigurierten Endpunkt in <code>apiurls.anlaufstellen</code> sowie die Einstellung von <code>proxyAktiv</code> in der Instanz-Konfiguration.</p>
       </div>
     `;
   }
@@ -402,7 +413,7 @@ function app(configdata, enclosingHtmlDivElement) {
         ${renderWeitereInfos(configdata)}
         ${renderMethodikbox(configdata)}
         <div class="small text-muted mt-3">
-          Datenbasis: ein konfigurierbarer Endpunkt über <code>apiurl</code> · Karte © OpenStreetMap contributors.
+          Datenbasis: ein konfigurierbarer Endpunkt über <code>apiurls.anlaufstellen</code> · Karte © OpenStreetMap contributors.
         </div>
       </div>
     `;
@@ -850,7 +861,7 @@ function app(configdata, enclosingHtmlDivElement) {
       /^\{\{.*\}\}$/.test(appConfig.apiUrl) ||
       /^<.*>$/.test(appConfig.apiUrl)
     ) {
-      throw new Error("Keine Datenquelle konfiguriert (apiurl fehlt).");
+      throw new Error("Keine Datenquelle konfiguriert (apiurls.anlaufstellen fehlt).");
     }
 
     const records = await loadGenericSource(appConfig.apiUrl);
@@ -1493,7 +1504,7 @@ function app(configdata, enclosingHtmlDivElement) {
   function buildAppConfig(raw) {
     return {
       title: raw.titel || raw.title || "Katastrophenschutz-Karte",
-      apiUrl: String(raw.apiurl || "").trim(),
+      apiUrl: getOdasApiUrl(raw, "anlaufstellen"),
       datenStand: String(raw.datenStand || "").trim(),
       weiterfuehrendeLinks: raw.weiterfuehrendeLinks || "",
     };

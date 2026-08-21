@@ -30,7 +30,7 @@ Die App ist eine Single Page Application mit:
 
 ## Datenformat
 
-Die App verarbeitet genau **einen** Endpunkt aus `apiurl`.
+Die App verarbeitet genau **einen** Endpunkt aus `apiurls.anlaufstellen`.
 
 Unterstuetzte Formate:
 
@@ -76,7 +76,7 @@ Wichtige Instanz-Parameter:
 | `titel` | Titel in der App | ja |
 | `seitentitel` | Browser-Tab-Titel | ja |
 | `urlDaten` | Referenz-URL zum Datensatz im ODP | ja |
-| `apiurl` | Direkter JSON-, CSV- oder WFS/GML-Endpunkt | ja |
+| `apiurls` | URLs zu Datenressourcen. Eintrag `anlaufstellen`: direkter JSON-, CSV- oder WFS/GML-Endpunkt | ja (Eintrag `anlaufstellen`) |
 
 Weitere App-Details wie Tabellenlimit, Offline-Strategie oder Proxy-Fallback werden intern in `app/app.js` gesteuert und nicht mehr ueber Instanz-Config gepflegt.
 
@@ -92,7 +92,7 @@ http://127.0.0.1:5501/app/
 
 Fuer lokale Tests wird die Konfiguration aus `odas-config/config.json` geladen. In der ODAS-Plattform kommt die Konfiguration zur Laufzeit aus der App-Instanz.
 
-Die Standard-`apiurl` zeigt lokal auf `../assets/daten-beispiel.csv`, damit die App ohne weitere Vorarbeiten startet.
+Die Standard-`apiurls.anlaufstellen` zeigt lokal auf `../assets/daten-beispiel.csv`, damit die App ohne weitere Vorarbeiten startet.
 
 ---
 

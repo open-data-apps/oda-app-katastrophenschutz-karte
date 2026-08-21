@@ -54,7 +54,13 @@
     "App-Entwickler: Ondics GmbH | ",
     "Provided by: ODAS"
   ],
-  "apiurl": "../assets/daten-beispiel.csv",
+  "apiurls": [
+    {
+      "name": "anlaufstellen",
+      "label": "URL zur Datenquelle",
+      "url": "../assets/daten-beispiel.csv"
+    }
+  ],
   "weiterfuehrendeLinks": "<ul><li><a href='https://www.bbk.bund.de/' target='_blank' rel='noopener'>Bundesamt für Bevölkerungsschutz und Katastrophenhilfe (BBK)</a></li><li><a href='https://www.krzn.de/' target='_blank' rel='noopener'>Kommunales Rechenzentrum Niederrhein (KRZN)</a></li></ul>",
   "datenStand": "Stand: abhängig von Datenquelle",
   "sprache": "de",

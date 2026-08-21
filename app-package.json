@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "katastrophenschutz-karte",
   "name": "Katastrophenschutz-Karte",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
   "kurzbeschreibung": "Interaktive Karte offizieller Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttuerme aus einer konfigurierbaren Einzelquelle.",
@@ -64,7 +64,7 @@
   "daten": {
     "beschreibung": "Normalisierte Notfall-Anlaufstellen mit Name, Adresse, Typ, Region und Koordinaten aus genau einer konfigurierten Datenquelle.",
     "schema": "assets/schema.json",
-    "beispiel": "Direkter JSON-, CSV- oder WFS/GML-Endpunkt ueber apiurl; Standard ist ein gebuendeltes CSV-Beispiel in assets.",
+    "beispiel": "Direkter JSON-, CSV- oder WFS/GML-Endpunkt ueber apiurls.anlaufstellen; Standard ist ein gebuendeltes CSV-Beispiel in assets.",
     "beispiel-url": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv"
   },
   "branding-css": "",
@@ -250,17 +250,24 @@
       },
       "erforderlich": "ja"
     },
-    "apiurl": {
-      "label": "URL zur Datenquelle",
+    "apiurls": {
+      "label": "URLs zu Datenressourcen",
       "category": "datenherkunft",
-      "hilfe": "Direkter JSON-, CSV- oder WFS/GML-Endpunkt der Notfall-Anlaufstellen.",
+      "hilfe": "Direkter Download-, Datei- oder API-Endpunkt der tatsächlich verwendeten Datenquelle(n). Mehrere Einträge möglich.",
+      "typ": "array",
       "format": {
         "typ": "url",
-        "laenge": 255
+        "laenge": 500
       },
-      "default": "assets/daten-beispiel.csv",
-      "beispiel": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
-      "erforderlich": "ja"
+      "urls": [
+        {
+          "name": "anlaufstellen",
+          "label": "URL zur Datenquelle",
+          "default": "assets/daten-beispiel.csv",
+          "beispiel": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
+          "erforderlich": "ja"
+        }
+      ]
     },
     "weiterfuehrendeLinks": {
       "label": "Weiterführende Links",
