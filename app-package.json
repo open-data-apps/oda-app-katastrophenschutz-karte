@@ -118,7 +118,7 @@
         "",
         "Dann richten Sie sich gerne an uns.",
         "",
-        "- Tel.: [{{odp.anbieter.tel}}](tel:{{odp.anbieter.telcode}})",
+        "- Tel.: [{{odp.anbieter.tel}}](tel:{{odp.anbieter.tel}})",
         "- E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
       ],
       "erforderlich": "ja"
@@ -181,7 +181,7 @@
         "{{odp.anbieter.strasse}}  ",
         "{{odp.anbieter.plzort}}",
         "",
-        "Website: [{{odp.anbieter.url-extern}}]({{odp.anbieter.url-extern}})",
+        "Website: [{{odp.anbieter.url}}]({{odp.anbieter.url}})",
         "",
         "## Kontakt",
         "",
