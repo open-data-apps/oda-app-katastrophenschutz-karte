@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.24.0 - 2026-08-25
+- **FIX:** `apiurls.anlaufstellen`-Default auf `../assets/daten-beispiel.csv` korrigiert (fehlendes `../`); gebündelte Demo-Ressource liegt damit wie dokumentiert im Liefer-ZIP.
+
 ## 1.23.0 - 2026-08-22
 - **CHG:** `version` in `app-package.json` zu `app-version` umbenannt.
 - **ENH:** Top-Level-Feld `app-package-version` ergänzt (Wert `"2"`: mehrere benannte API-URLs über `instanz-config.apiurls`).

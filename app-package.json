@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "katastrophenschutz-karte",
   "name": "Katastrophenschutz-Karte",
-  "app-version": "1.23.0",
+  "app-version": "1.24.0",
   "app-package-version": "2",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
@@ -264,8 +264,8 @@
         {
           "name": "anlaufstellen",
           "label": "URL zur Datenquelle",
-          "default": "assets/daten-beispiel.csv",
-          "beispiel": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
+          "default": "../assets/daten-beispiel.csv",
+          "beispiel": "../assets/daten-beispiel.csv",
           "erforderlich": "ja"
         }
       ]
