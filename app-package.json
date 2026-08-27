@@ -40,24 +40,9 @@
     "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation mit allen Apps",
     "- [oda-app-katastrophenschutz-karte](https://github.com/open-data-apps/oda-app-katastrophenschutz-karte) – das Repository dieser App"
   ],
-  "tags-funktion": [
-    "Karte",
-    "Filter",
-    "Standort",
-    "Offline",
-    "Notfall"
-  ],
-  "tags-dateityp": [
-    "JSON",
-    "CSV",
-    "WFS",
-    "GML"
-  ],
-  "tags-datenart": [
-    "Bevoelkerungsschutz",
-    "Geodaten",
-    "Infrastruktur"
-  ],
+  "tags-funktion": ["Karte", "Filter", "Standort", "Offline", "Notfall"],
+  "tags-dateityp": ["JSON", "CSV", "WFS", "GML"],
+  "tags-datenart": ["Bevoelkerungsschutz", "Geodaten", "Infrastruktur"],
   "screenshots": [
     "assets/Desktop_Screenshot.png",
     "assets/Mobile_Screenshot.png"
@@ -244,10 +229,7 @@
       "default": "nein",
       "format": {
         "typ": "dropdown",
-        "optionen": [
-          "nein",
-          "ja"
-        ]
+        "optionen": ["nein", "ja"]
       },
       "erforderlich": "ja"
     },
@@ -264,8 +246,8 @@
         {
           "name": "anlaufstellen",
           "label": "URL zur Datenquelle",
-          "default": "../assets/daten-beispiel.csv",
-          "beispiel": "../assets/daten-beispiel.csv",
+          "default": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
+          "beispiel": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
           "erforderlich": "ja"
         }
       ]
@@ -297,9 +279,7 @@
       "default": "de",
       "format": {
         "typ": "dropdown",
-        "optionen": [
-          "de"
-        ]
+        "optionen": ["de"]
       },
       "erforderlich": "ja"
     },
