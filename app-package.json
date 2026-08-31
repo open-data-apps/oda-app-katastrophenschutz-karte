@@ -1,121 +1,14 @@
 {
-  "app-entwickler-id": "12343",
-  "app-entwickler-name": "ondics-gmbh",
-  "name-in-url": "katastrophenschutz-karte",
-  "name": "Katastrophenschutz-Karte",
-  "app-version": "1.25.0",
-  "app-package-version": "2",
-  "odas-app-icon": "assets/odas-app-icon.svg",
-  "app-icon": "assets/odas-app-icon.svg",
-  "kurzbeschreibung": "Interaktive Karte offizieller Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttuerme aus einer konfigurierbaren Einzelquelle.",
-  "beschreibung": [
-    "_multiline_",
-    "Die Katastrophenschutz-Karte zeigt offizielle Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttürme auf einer interaktiven Karte und hilft, Standorte, Zuständigkeiten und Erreichbarkeit schnell zu überblicken.",
-    "",
-    "Die App nutzt offene Standortdaten aus einer konfigurierbaren Einzelquelle und ist ausdrücklich kein offizieller Warndienst – sie ersetzt keine amtlichen Warnungen oder Einsatzanweisungen.",
-    "",
-    "## Methodik",
-    "",
-    "Die App ruft die konfigurierte Datenquelle direkt ab – im Live-Betrieb optional über den ODAS-Proxy – und normalisiert verschiedene Quellformate im Browser: WFS/GML, JSON und CSV werden automatisch erkannt und in ein einheitliches Standortmodell (Name, Adresse, Typ, Region, Koordinaten) überführt.",
-    "",
-    "Standorte werden auf der Karte dargestellt und lassen sich nach Typ und Region filtern; Detailansichten, Standortbezug und ein Offline-Cache für zuletzt geladene Daten unterstützen die Nutzung. Koordinaten ohne verwertbare Werte werden gezählt und als Hinweis angezeigt.",
-    "",
-    "Welche Attribute tatsächlich vorhanden sind und wie aktuell die Daten sind, hängt von der jeweiligen Quelle ab.",
-    "",
-    "## Datenquelle",
-    "",
-    "Die App arbeitet mit genau einer konfigurierten Datenquelle; die konkrete Quelle wird über die App-Konfiguration festgelegt.",
-    "",
-    "- **Open Data Portal (Beispiel):** [GovData](https://www.govdata.de/)",
-    "- **Beispiel-Ressource/API-Endpunkt:** [WFS Notfall-Anlaufstellen Bielefeld](https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv)",
-    "- **Mitgeliefertes Beispiel:** `assets/daten-beispiel.csv` im App-Paket",
-    "",
-    "Angezeigt werden die in der Quelle vorhandenen Anlaufstellen; Verfügbarkeit und Aktualität hängen vom Pflegestand der Quelle ab. Die App ist kein offizieller Warndienst.",
-    "",
-    "## Open Data App",
-    "",
-    "Diese App ist eine Open Data App und kann im [Open Data App Store](https://open-data-app-store.de/) betrieben werden. Sie ist Open Source und lässt sich mit kommunalen Katastrophenschutz- oder Notfallstandortdaten konfigurieren.",
-    "",
-    "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform für Open Data Apps",
-    "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation mit allen Apps",
-    "- [oda-app-katastrophenschutz-karte](https://github.com/open-data-apps/oda-app-katastrophenschutz-karte) – das Repository dieser App"
-  ],
-  "tags-funktion": ["Karte", "Filter", "Standort", "Offline", "Notfall"],
-  "tags-dateityp": ["JSON", "CSV", "WFS", "GML"],
-  "tags-datenart": ["Bevoelkerungsschutz", "Geodaten", "Infrastruktur"],
-  "screenshots": [
-    "assets/Desktop_Screenshot.png",
-    "assets/Mobile_Screenshot.png"
-  ],
-  "daten": {
-    "beschreibung": "Normalisierte Notfall-Anlaufstellen mit Name, Adresse, Typ, Region und Koordinaten aus genau einer konfigurierten Datenquelle.",
-    "schema": "assets/schema.json",
-    "beispiel": "Direkter JSON-, CSV- oder WFS/GML-Endpunkt ueber apiurls.anlaufstellen; Standard ist ein gebuendeltes CSV-Beispiel in assets.",
-    "beispiel-url": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv"
-  },
-  "branding-css": "",
-  "api-version": "1",
-  "instanz-config": {
-    "seitentitel": {
-      "label": "Seitentitel",
-      "category": "allgemein",
-      "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt.",
-      "default": "Katastrophenschutz-Karte",
-      "format": {
-        "typ": "string",
-        "laenge": 50
-      },
-      "erforderlich": "ja"
-    },
-    "titel": {
-      "label": "Titel",
-      "category": "allgemein",
-      "hilfe": "Der Titel wird in der App angezeigt.",
-      "default": "Katastrophenschutz-Karte",
-      "format": {
-        "typ": "string",
-        "laenge": 50
-      },
-      "erforderlich": "ja"
-    },
-    "icon": {
-      "label": "App-Icon",
-      "category": "allgemein",
-      "hilfe": "Das Icon wird links oben in der Titelzeile angezeigt.",
-      "default": "{{{odp.logo}}}",
-      "format": {
-        "typ": "image",
-        "hoehe": 100,
-        "breite": 300
-      },
-      "erforderlich": "ja"
-    },
-    "kontakt": {
-      "label": "Kontakt",
-      "category": "kontakt-rechtliches",
-      "hilfe": "Der Text wird im Menuepunkt Kontakt angezeigt.",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": [
-        "_multiline_",
-        "Sie sind zufrieden mit der App oder haben Anregungen, Verbesserungen oder Hinweise?",
-        "",
-        "Dann richten Sie sich gerne an uns.",
-        "",
-        "- Tel.: [{{odp.anbieter.tel}}](tel:{{odp.anbieter.tel}})",
-        "- E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
-      ],
-      "erforderlich": "ja"
-    },
-    "beschreibung": {
-      "label": "Beschreibung",
-      "category": "beschreibung",
-      "hilfe": "Der Text wird im Menuepunkt Ueber diese App angezeigt.",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": [
+    "app-entwickler-id": "12343",
+    "app-entwickler-name": "ondics-gmbh",
+    "name-in-url": "katastrophenschutz-karte",
+    "name": "Katastrophenschutz-Karte",
+    "app-version": "1.25.0",
+    "app-package-version": "2",
+    "odas-app-icon": "assets/odas-app-icon.svg",
+    "app-icon": "assets/odas-app-icon.svg",
+    "kurzbeschreibung": "Interaktive Karte offizieller Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttuerme aus einer konfigurierbaren Einzelquelle.",
+    "beschreibung": [
         "_multiline_",
         "Die Katastrophenschutz-Karte zeigt offizielle Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttürme auf einer interaktiven Karte und hilft, Standorte, Zuständigkeiten und Erreichbarkeit schnell zu überblicken.",
         "",
@@ -134,7 +27,7 @@
         "Die App arbeitet mit genau einer konfigurierten Datenquelle; die konkrete Quelle wird über die App-Konfiguration festgelegt.",
         "",
         "- **Open Data Portal (Beispiel):** [GovData](https://www.govdata.de/)",
-        "- **Beispiel-Ressource/API-Endpunkt:** [WFS Notfall-Anlaufstellen Bielefeld](https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv)",
+        "- **Beispiel-Ressource/API-Endpunkt:** [WFS Notfall-Anlaufstellen Bielefeld]({{{appinstanz.apiurls.1}}})",
         "- **Mitgeliefertes Beispiel:** `assets/daten-beispiel.csv` im App-Paket",
         "",
         "Angezeigt werden die in der Quelle vorhandenen Anlaufstellen; Verfügbarkeit und Aktualität hängen vom Pflegestand der Quelle ab. Die App ist kein offizieller Warndienst.",
@@ -146,218 +39,345 @@
         "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform für Open Data Apps",
         "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation mit allen Apps",
         "- [oda-app-katastrophenschutz-karte](https://github.com/open-data-apps/oda-app-katastrophenschutz-karte) – das Repository dieser App"
-      ],
-      "erforderlich": "ja"
+    ],
+    "tags-funktion": [
+        "Karte",
+        "Filter",
+        "Standort",
+        "Offline",
+        "Notfall"
+    ],
+    "tags-dateityp": [
+        "JSON",
+        "CSV",
+        "WFS",
+        "GML"
+    ],
+    "tags-datenart": [
+        "Bevoelkerungsschutz",
+        "Geodaten",
+        "Infrastruktur"
+    ],
+    "screenshots": [
+        "assets/Desktop_Screenshot.png",
+        "assets/Mobile_Screenshot.png"
+    ],
+    "daten": {
+        "beschreibung": "Normalisierte Notfall-Anlaufstellen mit Name, Adresse, Typ, Region und Koordinaten aus genau einer konfigurierten Datenquelle.",
+        "schema": "assets/schema.json",
+        "beispiel": "Direkter JSON-, CSV- oder WFS/GML-Endpunkt ueber apiurls.anlaufstellen; Standard ist ein gebuendeltes CSV-Beispiel in assets.",
+        "beispiel-url": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv"
     },
-    "impressum": {
-      "label": "Impressum",
-      "category": "kontakt-rechtliches",
-      "hilfe": "Der Text wird im Menuepunkt Impressum angezeigt.",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": [
-        "_multiline_",
-        "## Anbieter",
-        "",
-        "{{{odp.anbieter.orgName}}}  ",
-        "{{{odp.anbieter.orgUnit}}}",
-        "",
-        "{{odp.anbieter.strasse}}  ",
-        "{{odp.anbieter.plzort}}",
-        "",
-        "Website: [{{odp.anbieter.url}}]({{odp.anbieter.url}})",
-        "",
-        "## Kontakt",
-        "",
-        "Tel.: {{odp.anbieter.tel}}  ",
-        "E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
-      ],
-      "erforderlich": "ja"
-    },
-    "datenschutz": {
-      "label": "Datenschutz",
-      "category": "kontakt-rechtliches",
-      "hilfe": "Der Text wird im Menuepunkt Datenschutz angezeigt.",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": [
-        "_multiline_",
-        "Die App verarbeitet den Browser-Standort nur lokal im Browser, wenn Nutzerinnen und Nutzer die Standortfreigabe aktiv erteilen.",
-        "",
-        "Standortdaten werden nicht an den App-Betreiber übertragen. Der Offline-Cache speichert zuletzt geladene Standortdaten nur lokal im Browser.",
-        "",
-        "Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert. Beim Aufruf werden dafür keine externen Server kontaktiert.",
-        "",
-        "Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt. Maßgeblich ist der Schalter `proxyAktiv` der Instanz-Konfiguration.",
-        "",
-        "## Beim Aufruf kontaktierte Drittanbieter",
-        "",
-        "Folgende externe Server werden kontaktiert. Dabei werden IP-Adresse und User-Agent der Besucher:innen an diese Anbieter übertragen:",
-        "",
-        "- **tile.openstreetmap.org** — Kartenkacheln (OpenStreetMap)",
-        "- **google.com/maps** — externer Routen-/Kartenlink (öffnet erst bei Klick in einem neuen Tab)"
-      ],
-      "erforderlich": "ja"
-    },
-    "urlDaten": {
-      "label": "URL zum Datensatz im ODP",
-      "category": "datenherkunft",
-      "hilfe": "Referenz-URL zu einem Datensatz oder einer Datenseite im Open Data Portal.",
-      "format": {
-        "typ": "url"
-      },
-      "default": "https://www.govdata.de/web/guest/suchen/-/searchresult/q=notfall%2520anlaufstellen",
-      "erforderlich": "ja"
-    },
-    "fusszeile": {
-      "label": "Fusszeile",
-      "category": "kontakt-rechtliches",
-      "hilfe": "Wird auf der Website unten in der Fusszeile angezeigt.",
-      "format": {
-        "typ": "string",
-        "laenge": 120
-      },
-      "default": "(C) Copyright {{jahr}} | App & Daten: {{odp.anbieter.name}} | App-Entwickler: {{app.developer.name}} | ODAS: {{odas.betreiber.name}}",
-      "erforderlich": "ja"
-    },
-    "proxyAktiv": {
-      "label": "ODAS-Proxy aktivieren",
-      "category": "datenherkunft",
-      "hilfe": "Mit ja werden Datenabrufe über den ODAS-Proxy gesendet. Der Proxy ist nur im ODAS-Live-System verfügbar; Entwicklung und Standalone verwenden nein.",
-      "default": "nein",
-      "format": {
-        "typ": "dropdown",
-        "optionen": ["nein", "ja"]
-      },
-      "erforderlich": "ja"
-    },
-    "apiurls": {
-      "label": "URLs zu Datenressourcen",
-      "category": "datenherkunft",
-      "hilfe": "Direkter Download-, Datei- oder API-Endpunkt der tatsächlich verwendeten Datenquelle(n). Mehrere Einträge möglich.",
-      "typ": "array",
-      "format": {
-        "typ": "url",
-        "laenge": 500
-      },
-      "urls": [
-        {
-          "name": "anlaufstellen",
-          "label": "URL zur Datenquelle",
-          "default": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
-          "beispiel": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
-          "erforderlich": "ja"
+    "branding-css": "",
+    "api-version": "1",
+    "instanz-config": {
+        "seitentitel": {
+            "label": "Seitentitel",
+            "category": "allgemein",
+            "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt.",
+            "default": "Katastrophenschutz-Karte",
+            "format": {
+                "typ": "string",
+                "laenge": 50
+            },
+            "erforderlich": "ja"
+        },
+        "titel": {
+            "label": "Titel",
+            "category": "allgemein",
+            "hilfe": "Der Titel wird in der App angezeigt.",
+            "default": "Katastrophenschutz-Karte",
+            "format": {
+                "typ": "string",
+                "laenge": 50
+            },
+            "erforderlich": "ja"
+        },
+        "icon": {
+            "label": "App-Icon",
+            "category": "allgemein",
+            "hilfe": "Das Icon wird links oben in der Titelzeile angezeigt.",
+            "default": "{{{odp.logo}}}",
+            "format": {
+                "typ": "image",
+                "hoehe": 100,
+                "breite": 300
+            },
+            "erforderlich": "ja"
+        },
+        "kontakt": {
+            "label": "Kontakt",
+            "category": "kontakt-rechtliches",
+            "hilfe": "Der Text wird im Menuepunkt Kontakt angezeigt.",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": [
+                "_multiline_",
+                "Sie sind zufrieden mit der App oder haben Anregungen, Verbesserungen oder Hinweise?",
+                "",
+                "Dann richten Sie sich gerne an uns.",
+                "",
+                "- Tel.: [{{odp.anbieter.tel}}](tel:{{odp.anbieter.tel}})",
+                "- E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
+            ],
+            "erforderlich": "ja"
+        },
+        "beschreibung": {
+            "label": "Beschreibung",
+            "category": "beschreibung",
+            "hilfe": "Der Text wird im Menuepunkt Ueber diese App angezeigt.",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": [
+                "_multiline_",
+                "Die Katastrophenschutz-Karte zeigt offizielle Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttürme auf einer interaktiven Karte und hilft, Standorte, Zuständigkeiten und Erreichbarkeit schnell zu überblicken.",
+                "",
+                "Die App nutzt offene Standortdaten aus einer konfigurierbaren Einzelquelle und ist ausdrücklich kein offizieller Warndienst – sie ersetzt keine amtlichen Warnungen oder Einsatzanweisungen.",
+                "",
+                "## Methodik",
+                "",
+                "Die App ruft die konfigurierte Datenquelle direkt ab – im Live-Betrieb optional über den ODAS-Proxy – und normalisiert verschiedene Quellformate im Browser: WFS/GML, JSON und CSV werden automatisch erkannt und in ein einheitliches Standortmodell (Name, Adresse, Typ, Region, Koordinaten) überführt.",
+                "",
+                "Standorte werden auf der Karte dargestellt und lassen sich nach Typ und Region filtern; Detailansichten, Standortbezug und ein Offline-Cache für zuletzt geladene Daten unterstützen die Nutzung. Koordinaten ohne verwertbare Werte werden gezählt und als Hinweis angezeigt.",
+                "",
+                "Welche Attribute tatsächlich vorhanden sind und wie aktuell die Daten sind, hängt von der jeweiligen Quelle ab.",
+                "",
+                "## Datenquelle",
+                "",
+                "Die App arbeitet mit genau einer konfigurierten Datenquelle; die konkrete Quelle wird über die App-Konfiguration festgelegt.",
+                "",
+                "- **Open Data Portal (Beispiel):** [GovData](https://www.govdata.de/)",
+                "- **Beispiel-Ressource/API-Endpunkt:** [WFS Notfall-Anlaufstellen Bielefeld]({{{appinstanz.apiurls.1}}})",
+                "- **Mitgeliefertes Beispiel:** `assets/daten-beispiel.csv` im App-Paket",
+                "",
+                "Angezeigt werden die in der Quelle vorhandenen Anlaufstellen; Verfügbarkeit und Aktualität hängen vom Pflegestand der Quelle ab. Die App ist kein offizieller Warndienst.",
+                "",
+                "## Open Data App",
+                "",
+                "Diese App ist eine Open Data App und kann im [Open Data App Store](https://open-data-app-store.de/) betrieben werden. Sie ist Open Source und lässt sich mit kommunalen Katastrophenschutz- oder Notfallstandortdaten konfigurieren.",
+                "",
+                "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform für Open Data Apps",
+                "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation mit allen Apps",
+                "- [oda-app-katastrophenschutz-karte](https://github.com/open-data-apps/oda-app-katastrophenschutz-karte) – das Repository dieser App"
+            ],
+            "erforderlich": "ja"
+        },
+        "impressum": {
+            "label": "Impressum",
+            "category": "kontakt-rechtliches",
+            "hilfe": "Der Text wird im Menuepunkt Impressum angezeigt.",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": [
+                "_multiline_",
+                "## Anbieter",
+                "",
+                "{{{odp.anbieter.orgName}}}  ",
+                "{{{odp.anbieter.orgUnit}}}",
+                "",
+                "{{odp.anbieter.strasse}}  ",
+                "{{odp.anbieter.plzort}}",
+                "",
+                "Website: [{{odp.anbieter.url}}]({{odp.anbieter.url}})",
+                "",
+                "## Kontakt",
+                "",
+                "Tel.: {{odp.anbieter.tel}}  ",
+                "E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
+            ],
+            "erforderlich": "ja"
+        },
+        "datenschutz": {
+            "label": "Datenschutz",
+            "category": "kontakt-rechtliches",
+            "hilfe": "Der Text wird im Menuepunkt Datenschutz angezeigt.",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": [
+                "_multiline_",
+                "Die App verarbeitet den Browser-Standort nur lokal im Browser, wenn Nutzerinnen und Nutzer die Standortfreigabe aktiv erteilen.",
+                "",
+                "Standortdaten werden nicht an den App-Betreiber übertragen. Der Offline-Cache speichert zuletzt geladene Standortdaten nur lokal im Browser.",
+                "",
+                "Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert. Beim Aufruf werden dafür keine externen Server kontaktiert.",
+                "",
+                "Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt. Maßgeblich ist der Schalter `proxyAktiv` der Instanz-Konfiguration.",
+                "",
+                "## Beim Aufruf kontaktierte Drittanbieter",
+                "",
+                "Folgende externe Server werden kontaktiert. Dabei werden IP-Adresse und User-Agent der Besucher:innen an diese Anbieter übertragen:",
+                "",
+                "- **tile.openstreetmap.org** — Kartenkacheln (OpenStreetMap)",
+                "- **google.com/maps** — externer Routen-/Kartenlink (öffnet erst bei Klick in einem neuen Tab)"
+            ],
+            "erforderlich": "ja"
+        },
+        "urlDaten": {
+            "label": "URL zum Datensatz im ODP",
+            "category": "datenherkunft",
+            "hilfe": "Referenz-URL zu einem Datensatz oder einer Datenseite im Open Data Portal.",
+            "format": {
+                "typ": "url"
+            },
+            "default": "https://www.govdata.de/web/guest/suchen/-/searchresult/q=notfall%2520anlaufstellen",
+            "erforderlich": "ja"
+        },
+        "fusszeile": {
+            "label": "Fusszeile",
+            "category": "kontakt-rechtliches",
+            "hilfe": "Wird auf der Website unten in der Fusszeile angezeigt.",
+            "format": {
+                "typ": "string",
+                "laenge": 120
+            },
+            "default": "(C) Copyright {{jahr}} | App & Daten: {{odp.anbieter.name}} | App-Entwickler: {{app.developer.name}} | ODAS: {{odas.betreiber.name}}",
+            "erforderlich": "ja"
+        },
+        "proxyAktiv": {
+            "label": "ODAS-Proxy aktivieren",
+            "category": "datenherkunft",
+            "hilfe": "Mit ja werden Datenabrufe über den ODAS-Proxy gesendet. Der Proxy ist nur im ODAS-Live-System verfügbar; Entwicklung und Standalone verwenden nein.",
+            "default": "nein",
+            "format": {
+                "typ": "dropdown",
+                "optionen": [
+                    "nein",
+                    "ja"
+                ]
+            },
+            "erforderlich": "ja"
+        },
+        "apiurls": {
+            "label": "URLs zu Datenressourcen",
+            "category": "datenherkunft",
+            "hilfe": "Direkter Download-, Datei- oder API-Endpunkt der tatsächlich verwendeten Datenquelle(n). Mehrere Einträge möglich.",
+            "typ": "array",
+            "format": {
+                "typ": "url",
+                "laenge": 500
+            },
+            "urls": [
+                {
+                    "name": "anlaufstellen",
+                    "label": "URL zur Datenquelle",
+                    "default": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
+                    "beispiel": "https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
+                    "erforderlich": "ja"
+                }
+            ]
+        },
+        "weiterfuehrendeLinks": {
+            "label": "Weiterführende Links",
+            "category": "beschreibung",
+            "hilfe": "Verwandte Datensätze / Hintergrundquellen (HTML/Markdown). Leer = ausgeblendet.",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": "- [Bundesamt für Bevölkerungsschutz und Katastrophenhilfe (BBK)](https://www.bbk.bund.de/)\n- [Kommunales Rechenzentrum Niederrhein (KRZN)](https://www.krzn.de/)",
+            "erforderlich": "nein"
+        },
+        "datenStand": {
+            "label": "Datenstand",
+            "category": "beschreibung",
+            "hilfe": "Freitext-Hinweis zum Stand der Daten. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Stand: abhängig von Datenquelle",
+            "erforderlich": "nein"
+        },
+        "sprache": {
+            "label": "Sprache der App",
+            "category": "allgemein",
+            "hilfe": "Angabe der App-Sprache.",
+            "default": "de",
+            "format": {
+                "typ": "dropdown",
+                "optionen": [
+                    "de"
+                ]
+            },
+            "erforderlich": "ja"
+        },
+        "datenquelleHinweis": {
+            "label": "Methodik / Datenquelle-Hinweis",
+            "category": "beschreibung",
+            "hilfe": "Herkunft, Erhebungsmethode und Limitierungen (HTML/Markdown). Leer = ausgeblendet.",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": "Die Standortdaten werden aus verschiedenen Quellformaten (WFS/GML, JSON, CSV) automatisch erkannt und normalisiert. Die App zeigt Notfall-Anlaufstellen, Typen, Regionen und Koordinaten aus der konfigurierten Einzelquelle; Verfügbarkeit und Aktualität hängen vom jeweiligen Datenbereitsteller ab.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext1": {
+            "label": "KPI-Erklärung 1: Standorte (gefiltert)",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string",
+                "laenge": 250
+            },
+            "default": "Anzahl der Notfall-Anlaufstellen und Infopunkte im aktuell gefilterten Gebiet. Zeigt die Dichte des Katastrophenschutz-Netzes.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext2": {
+            "label": "KPI-Erklärung 2: Regionen",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string",
+                "laenge": 250
+            },
+            "default": "Anzahl der verschiedenen Regionen, in denen Einrichtungen vorhanden sind. Zeigt die räumliche Abdeckung des Schutznetzes.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext3": {
+            "label": "KPI-Erklärung 3: Typgruppen",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string",
+                "laenge": 250
+            },
+            "default": "Anzahl der verschiedenen Einrichtungstypen (z.B. Notunterkunft, Infopunkt, Leuchtturm). Zeigt die Vielfalt der Schutzangebote.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext4": {
+            "label": "KPI-Erklärung 4: Nächste Stelle (km)",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string",
+                "laenge": 250
+            },
+            "default": "Entfernung zur nächstgelegenen Katastrophenschutz-Einrichtung von Ihrem Standort. Zeigt die Erreichbarkeit von Hilfe im Ernstfall.",
+            "erforderlich": "nein"
+        },
+        "brandingCSS": {
+            "label": "Zusätzliches Branding-CSS",
+            "category": "sonstiges",
+            "hilfe": "Optionaler CSS-Code für die konkrete App-Instanz.",
+            "default": "",
+            "format": {
+                "typ": "string",
+                "laenge": 10000
+            },
+            "erforderlich": "nein"
+        },
+        "brandingCSSFile": {
+            "label": "Branding-CSS-Datei",
+            "category": "sonstiges",
+            "hilfe": "Optionale URL zu einer zusätzlichen CSS-Datei für die konkrete App-Instanz.",
+            "default": "",
+            "format": {
+                "typ": "url",
+                "laenge": 500
+            },
+            "erforderlich": "nein"
         }
-      ]
-    },
-    "weiterfuehrendeLinks": {
-      "label": "Weiterführende Links",
-      "category": "beschreibung",
-      "hilfe": "Verwandte Datensätze / Hintergrundquellen (HTML/Markdown). Leer = ausgeblendet.",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": "- [Bundesamt für Bevölkerungsschutz und Katastrophenhilfe (BBK)](https://www.bbk.bund.de/)\n- [Kommunales Rechenzentrum Niederrhein (KRZN)](https://www.krzn.de/)",
-      "erforderlich": "nein"
-    },
-    "datenStand": {
-      "label": "Datenstand",
-      "category": "beschreibung",
-      "hilfe": "Freitext-Hinweis zum Stand der Daten. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Stand: abhängig von Datenquelle",
-      "erforderlich": "nein"
-    },
-    "sprache": {
-      "label": "Sprache der App",
-      "category": "allgemein",
-      "hilfe": "Angabe der App-Sprache.",
-      "default": "de",
-      "format": {
-        "typ": "dropdown",
-        "optionen": ["de"]
-      },
-      "erforderlich": "ja"
-    },
-    "datenquelleHinweis": {
-      "label": "Methodik / Datenquelle-Hinweis",
-      "category": "beschreibung",
-      "hilfe": "Herkunft, Erhebungsmethode und Limitierungen (HTML/Markdown). Leer = ausgeblendet.",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": "Die Standortdaten werden aus verschiedenen Quellformaten (WFS/GML, JSON, CSV) automatisch erkannt und normalisiert. Die App zeigt Notfall-Anlaufstellen, Typen, Regionen und Koordinaten aus der konfigurierten Einzelquelle; Verfügbarkeit und Aktualität hängen vom jeweiligen Datenbereitsteller ab.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext1": {
-      "label": "KPI-Erklärung 1: Standorte (gefiltert)",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string",
-        "laenge": 250
-      },
-      "default": "Anzahl der Notfall-Anlaufstellen und Infopunkte im aktuell gefilterten Gebiet. Zeigt die Dichte des Katastrophenschutz-Netzes.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext2": {
-      "label": "KPI-Erklärung 2: Regionen",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string",
-        "laenge": 250
-      },
-      "default": "Anzahl der verschiedenen Regionen, in denen Einrichtungen vorhanden sind. Zeigt die räumliche Abdeckung des Schutznetzes.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext3": {
-      "label": "KPI-Erklärung 3: Typgruppen",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string",
-        "laenge": 250
-      },
-      "default": "Anzahl der verschiedenen Einrichtungstypen (z.B. Notunterkunft, Infopunkt, Leuchtturm). Zeigt die Vielfalt der Schutzangebote.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext4": {
-      "label": "KPI-Erklärung 4: Nächste Stelle (km)",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI-Wert. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string",
-        "laenge": 250
-      },
-      "default": "Entfernung zur nächstgelegenen Katastrophenschutz-Einrichtung von Ihrem Standort. Zeigt die Erreichbarkeit von Hilfe im Ernstfall.",
-      "erforderlich": "nein"
-    },
-    "brandingCSS": {
-      "label": "Zusätzliches Branding-CSS",
-      "category": "sonstiges",
-      "hilfe": "Optionaler CSS-Code für die konkrete App-Instanz.",
-      "default": "",
-      "format": {
-        "typ": "string",
-        "laenge": 10000
-      },
-      "erforderlich": "nein"
-    },
-    "brandingCSSFile": {
-      "label": "Branding-CSS-Datei",
-      "category": "sonstiges",
-      "hilfe": "Optionale URL zu einer zusätzlichen CSS-Datei für die konkrete App-Instanz.",
-      "default": "",
-      "format": {
-        "typ": "url",
-        "laenge": 500
-      },
-      "erforderlich": "nein"
     }
-  }
 }
