@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.25.1 - 2026-09-07
+- **FIX:** Variante-A-Verdrahtung (F-92): Typprüfung (wfs) vor dem ersten Fetch; Quellen- und Ladefehler über `renderOdasFehler` (1.25.1 -> 1.25.2).
 - **FIX:** Frictionless-Härtung: `$schema`-Key und `category`-Beschreibung ergänzt; Schema beschreibt belegt die normalisierte Form (WKT-Parse + EPSG:25832-Umbau im Code).
 
 ## 1.25.0 - 2026-08-25

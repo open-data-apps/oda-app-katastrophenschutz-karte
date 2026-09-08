@@ -339,8 +339,27 @@ function app(configdata, enclosingHtmlDivElement) {
 
   const quelle = appConfig.apiUrl;
   if (!quelle || /^\{\{.*\}\}$/.test(quelle) || /^<.*>$/.test(quelle)) {
-    enclosingHtmlDivElement.innerHTML =
-      '<div class="alert alert-info" role="alert">Es ist keine Datenquelle konfiguriert.</div>';
+    renderOdasFehler(
+      enclosingHtmlDivElement,
+      new Error("Keine Datenquelle konfiguriert."),
+      {
+        url: quelle,
+        label: "Anlaufstellen (WFS)",
+        typLabel: "Kartendienst (WFS)",
+        erwarteterTyp: "wfs",
+      },
+    );
+    return null;
+  }
+  // Variante A (F-92): Typprüfung vor dem ersten Fetch.
+  const ksTypWarn = validateUrlTypErwartung(quelle, "wfs");
+  if (ksTypWarn) {
+    renderOdasFehler(enclosingHtmlDivElement, new Error(ksTypWarn), {
+      url: quelle,
+      label: "Anlaufstellen (WFS)",
+      typLabel: "Kartendienst (WFS)",
+      erwarteterTyp: "wfs",
+    });
     return null;
   }
 
@@ -438,13 +457,12 @@ function app(configdata, enclosingHtmlDivElement) {
   }
 
   function renderError(error) {
-    enclosingHtmlDivElement.innerHTML = `
-      <div class="alert alert-danger mt-4" role="alert">
-        <h2 class="h5 alert-heading">Daten konnten nicht geladen werden</h2>
-        <p class="mb-2">${escapeHtml(error.message || String(error))}</p>
-        <p class="mb-0 small">Bitte prüfen Sie den konfigurierten Endpunkt in <code>apiurls.anlaufstellen</code> sowie die Einstellung von <code>proxyAktiv</code> in der Instanz-Konfiguration.</p>
-      </div>
-    `;
+    renderOdasFehler(enclosingHtmlDivElement, error, {
+      url: appConfig.apiUrl,
+      label: "Anlaufstellen (WFS)",
+      typLabel: "Kartendienst (WFS)",
+      erwarteterTyp: "wfs",
+    });
   }
 
   function renderShell() {
