@@ -1,8 +1,12 @@
 # Changelog
 
-## 1.25.1 - 2026-09-07
+## 1.25.3 - 2026-09-08
 - **FIX:** F-92-Nachbesserung: top-level `escapeHtml` für `renderOdasFehler` bzw. Fehlerrender ins Status-Element statt Root (Layout-Scaffold bleibt erhalten, Regressionen check-two-instance-runtime/check-three-states grün) (1.25.2 -> 1.25.3).
+
+## 1.25.2 - 2026-09-08
 - **FIX:** Variante-A-Verdrahtung (F-92): Typprüfung (wfs) vor dem ersten Fetch; Quellen- und Ladefehler über `renderOdasFehler` (1.25.1 -> 1.25.2).
+
+## 1.25.1 - 2026-09-07
 - **FIX:** Frictionless-Härtung: `$schema`-Key und `category`-Beschreibung ergänzt; Schema beschreibt belegt die normalisierte Form (WKT-Parse + EPSG:25832-Umbau im Code).
 
 ## 1.25.0 - 2026-08-25
