@@ -256,6 +256,18 @@ function classifyOdasFehler(error, kontext = {}) {
   };
 }
 
+// Top-Level-Variante: renderOdasFehler laeuft ausserhalb von app() und darf
+// nicht auf das nested escapeHtml (innerhalb app()) angewiesen sein. Innerhalb
+// von app() schattiert die dortige Funktion diese Deklaration.
+function escapeHtml(value) {
+  return String(value == null ? "" : value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function renderOdasFehler(container, error, kontext = {}) {
   if (!container) return;
   const typWarn = validateUrlTypErwartung(kontext.url, kontext.erwarteterTyp);
