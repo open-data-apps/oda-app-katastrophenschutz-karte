@@ -81,18 +81,21 @@ async function fetchViaOdasProxy(targetUrl, options = {}) {
   return proxyData.content;
 }
 
-async function fetchOdasResource(targetUrl, configdata = {}) {
+async function fetchOdasResource(targetUrl, configdata = {}, options = {}) {
   if (isOdasProxyEnabled(configdata)) {
-    return fetchViaOdasProxy(targetUrl);
+    return fetchViaOdasProxy(targetUrl, options);
   }
 
   try {
-    const response = await fetch(targetUrl);
+    const response = await fetch(targetUrl, {
+      signal: options && options.signal ? options.signal : undefined,
+    });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
     return response.text();
   } catch (error) {
+    if (error && error.name === "AbortError") throw error;
     throw new Error(
       `Direkter Datenabruf fehlgeschlagen (${error.message}). Bitte prüfen Sie die Daten-URL und die CORS-Freigabe der Datenquelle.`,
     );
@@ -110,8 +113,8 @@ function getOdasApiUrl(configdata, name) {
   return String((treffer && treffer.url) || "").trim();
 }
 
-async function fetchOdasJson(targetUrl, configdata = {}) {
-  const rawContent = await fetchOdasResource(targetUrl, configdata);
+async function fetchOdasJson(targetUrl, configdata = {}, options = {}) {
+  const rawContent = await fetchOdasResource(targetUrl, configdata, options);
   try {
     return JSON.parse(rawContent);
   } catch (_error) {
@@ -282,15 +285,6 @@ function renderOdasFehler(container, error, kontext = {}) {
   container.innerHTML = `<div class="alert ${alertClass}" role="alert"><strong>${escapeHtml(titel)}</strong><p class="mb-1">${escapeHtml(info.hinweis)}</p>${urlZeile}<details class="small"><summary>Details</summary><code>${escapeHtml(info.detail || String(error))}</code></details></div>`;
 }
 
-function isLeerErgebnis(json) {
-  if (!json) return true;
-  if (Array.isArray(json) && json.length === 0) return true;
-  if (Array.isArray(json.records) && json.records.length === 0) return true;
-  if (Array.isArray(json.results) && json.results.length === 0) return true;
-  if (json.result && Array.isArray(json.result.records) && json.result.records.length === 0) return true;
-  return false;
-}
-
 
 /*
  * Template-Hook (oda-generic 1.4.0). Die Base ruft ihn vor dem Rendern der neuen
@@ -298,24 +292,37 @@ function isLeerErgebnis(json) {
  * Leaflet-Karte; der Hook entfernt die Listener und die Karte und macht späte
  * Async-Renders durch das disposed-Flag wirkungslos.
  */
-function onPageLeave(page) {
-  katastrophenInstances.forEach((state, container) => {
-    state.disposed = true;
-    (state.listeners || []).forEach(([element, type, fn]) =>
-      element.removeEventListener(type, fn),
-    );
-    state.listeners = [];
-    if (state.map) {
-      try {
-        state.map.remove();
-      } catch (error) {
-        console.warn("Fehler beim Entfernen der Leaflet-Karte:", error);
-      }
-      state.map = null;
+// KS-B1: Der Teardown ist ausgelagert, damit ihn sowohl der Hook als auch der
+// Re-App-Pfad fuer die Vorgaenger-Instanz nutzen. Vorher ueberschrieb app() den
+// Registry-Eintrag ohne Aufraeumen — die window-weiten online/offline-Listener
+// und die Leaflet-Karte der alten Instanz blieben aktiv.
+function teardownKatastrophenInstanz(state, container) {
+  state.disposed = true;
+  if (state.controller) state.controller.abort();
+  (state.listeners || []).forEach(([element, type, fn]) =>
+    element.removeEventListener(type, fn),
+  );
+  state.listeners = [];
+  if (state.map) {
+    try {
+      state.map.remove();
+    } catch (error) {
+      console.warn("Fehler beim Entfernen der Leaflet-Karte:", error);
     }
-    state.markerLayer = null;
-    state.userLayer = null;
-    katastrophenInstances.delete(container);
+    state.map = null;
+  }
+  state.markerLayer = null;
+  state.userLayer = null;
+  katastrophenInstances.delete(container);
+}
+
+function onPageLeave(page) {
+  [...katastrophenInstances.entries()].forEach(([container, state]) => {
+    try {
+      teardownKatastrophenInstanz(state, container);
+    } catch (error) {
+      console.warn("Fehler beim Abraeumen der Katastrophenschutz-Instanz:", error);
+    }
   });
 }
 
@@ -345,8 +352,16 @@ function app(configdata, enclosingHtmlDivElement) {
     sortMode: "distance",
     listeners: [],
     disposed: false,
+    controller: new AbortController(), // KS-B4: laufende Abrufe sind abbrechbar
   };
 
+  // KS-B1: Vorgaenger-Instanz desselben Containers zuerst abraeumen.
+  const ksVorheriger = katastrophenInstances.get(enclosingHtmlDivElement);
+  if (ksVorheriger) {
+    try {
+      teardownKatastrophenInstanz(ksVorheriger, enclosingHtmlDivElement);
+    } catch (_e) {}
+  }
   katastrophenInstances.set(enclosingHtmlDivElement, state);
 
   const quelle = appConfig.apiUrl;
@@ -1077,8 +1092,12 @@ function app(configdata, enclosingHtmlDivElement) {
   // Datenabruf: direkt oder ueber den ODAS-Proxy (proxyAktiv)
   async function fetchTextWithProxyFallback(url) {
     try {
-      return await fetchOdasResource(url, configdata);
+      // KS-B4: Abruf mit Signal der Instanz — beim Seitenwechsel bricht er ab.
+      return await fetchOdasResource(url, configdata, {
+        signal: state.controller.signal,
+      });
     } catch (error) {
+      if (error && error.name === "AbortError") throw error;
       throw new Error(
         `Abruf fehlgeschlagen (${shortenUrl(url)}): ${error.message}`,
       );
@@ -1557,6 +1576,14 @@ function app(configdata, enclosingHtmlDivElement) {
     );
   }
 
+  // KS-B2: Der Loader-Cache liegt auf window und wurde im Fehlerfall nicht
+  // zurueckgesetzt — eine einzige fehlgeschlagene Ladung liess Leaflet fuer die
+  // ganze Sitzung (auch in anderen Instanzen) kaputt.
+  function resetKatasLeafletPromise() {
+    if (!window.katasMapLeafletPromise) return;
+    window.katasMapLeafletPromise = null;
+  }
+
   function loadLeaflet() {
     if (window.L) return Promise.resolve();
     if (window.katasMapLeafletPromise) return window.katasMapLeafletPromise;
@@ -1574,6 +1601,9 @@ function app(configdata, enclosingHtmlDivElement) {
       script.onload = resolve;
       script.onerror = () => reject(new Error("Leaflet-Skript konnte nicht geladen werden."));
       document.head.appendChild(script);
+    }).catch((error) => {
+      resetKatasLeafletPromise();
+      throw error;
     });
     return window.katasMapLeafletPromise;
   }
@@ -1585,6 +1615,10 @@ function app(configdata, enclosingHtmlDivElement) {
         JSON.stringify({
           savedAt: new Date().toISOString(),
           note,
+          // KS-B3: Der Cache gehoert zu einer Datenquelle. Ohne diese Bindung
+          // konnte eine zweite Instanz mit anderer Quelle die fremden
+          // Datensaetze als "zwischengespeicherte Daten" anzeigen.
+          sourceUrl: String(quelle || ""),
           records,
         }),
       );
@@ -1598,6 +1632,10 @@ function app(configdata, enclosingHtmlDivElement) {
       const raw = localStorage.getItem(storageKey);
       if (!raw) return { savedAt: "", records: [] };
       const parsed = JSON.parse(raw);
+      if (String(parsed.sourceUrl || "") !== String(quelle || "")) {
+        // Fremde oder alte Cache-Datei (ohne Quellenbindung): nicht verwenden.
+        return { savedAt: "", records: [] };
+      }
       return {
         savedAt: parsed.savedAt || "",
         records: Array.isArray(parsed.records) ? parsed.records : [],
@@ -1757,5 +1795,5 @@ function app(configdata, enclosingHtmlDivElement) {
 }
 
 function addToHead() {
-  return;
+  return ``;
 }

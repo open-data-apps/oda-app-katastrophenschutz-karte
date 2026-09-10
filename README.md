@@ -23,7 +23,7 @@ Die App ist eine Single Page Application mit:
 - Interaktive Leaflet-Karte mit Typ-Markierung und Standortbezug
 - Filter fuer Region, Typ, Suchbegriff und Radius
 - Detailansicht mit Adresse, Quelle, Entfernung und Navigationslink
-- Sortierbarer Trefferliste mit Offline-Cache der zuletzt geladenen Daten
+- Sortierbarer Trefferliste mit Offline-Cache der zuletzt geladenen Daten; der Cache ist an die konfigurierte Datenquelle gebunden (Fremddaten werden nicht angezeigt)
 - Blackout-Checkliste als statische Hilfsinformation
 
 ---

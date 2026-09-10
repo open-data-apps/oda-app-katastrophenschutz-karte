@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.25.4 - 2026-09-10
+- **FIX (KS-B1):** `katastrophenInstances.set(...)` ohne Vorgänger-Cleanup — bei Same-Page-Re-Render blieben die **window-weiten `online`/`offline`-Listener** und die Leaflet-Karte der alten Instanz aktiv. Der Teardown ist dafür in `teardownKatastrophenInstanz()` ausgelagert (Hook und Re-App-Pfad teilen sich den Pfad).
+- **FIX (KS-B2):** `window.katasMapLeafletPromise` blieb nach einem Fehlschlag abgelehnt stehen — Leaflet war damit für die **ganze Sitzung** (auch in anderen Instanzen) kaputt. Jetzt Reset über `resetKatasLeafletPromise()`.
+- **FIX (KS-B3):** Der Offline-Cache (`localStorage`) war nicht an die Datenquelle gebunden: eine zweite Instanz mit anderer Quelle konnte die fremden Datensätze als „zwischengespeicherte Daten" anzeigen. Jetzt wird `sourceUrl` mitgespeichert und beim Lesen geprüft; ein Cache ohne passende Quelle wird verworfen. (Folge: alte Cache-Einträge ohne Quellenangabe gelten als ungültig und werden beim nächsten erfolgreichen Live-Abruf ersetzt.)
+- **FIX (KS-B4):** `AbortController` je Instanz; der Abruf läuft mit `signal` und wird im Teardown abgebrochen. `fetchOdasResource`/`fetchOdasJson` reichen `signal` durch und werfen `AbortError` unverpackt.
+- **TECH (KS-B5):** `isLeerErgebnis` entfernt; `addToHead` gibt `""` statt `undefined` zurück.
+- **Unangetastet:** die beiden `state.disposed`-Guards im Geolocation-Block (Lifecycle-Check prüft genau sie) sowie `renderEmpty`/Leerzustand (F-69).
+
 ## 1.25.3 - 2026-09-08
 - **FIX:** F-92-Nachbesserung: top-level `escapeHtml` für `renderOdasFehler` bzw. Fehlerrender ins Status-Element statt Root (Layout-Scaffold bleibt erhalten, Regressionen check-two-instance-runtime/check-three-states grün) (1.25.2 -> 1.25.3).
 
