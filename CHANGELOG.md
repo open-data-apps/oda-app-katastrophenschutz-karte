@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.25.8 - 2026-10-08
+- FIX: F-112: Unbekannte Antwortstrukturen als Formatfehler statt als leere Daten anzeigen; bekannte leere Listen bleiben gültig.
+- FIX: F-119 (Nachbesserung): Typprüfung akzeptiert auch die dokumentierten JSON-APIs (CKAN datastore_search, OpenDataSoft v2.1, CKAN-Datei-Download); Hilfetext beschreibt den tatsächlichen JSON/CSV/WFS-GML-Vertrag statt GeoJSON.
+
+## 1.25.7 - 2026-10-08
+- FIX: F-139: GML-Achsen anhand von srsName auswerten (EPSG:4326-URN/URI, alte epsg.xml-Form, CRS84, EPSG:25832); unbekannte deklarierte Systeme sichtbar ablehnen.
+
+## 1.25.6 - 2026-10-02
+- ENH: Verwendete ODAS-Dienste in `odas-services` deklariert.
+
+## 1.25.5 - 2026-09-29
+
+- **FIX:** Audit F-119: Die Typprüfung akzeptierte nur WFS und lehnte die dokumentierten JSON-/CSV-Endpunkte (inkl. mitgeliefertem `assets/daten-beispiel.csv`) vor dem ersten Abruf ab. Prüfung akzeptiert jetzt JSON-, CSV- und WFS/GML-Endpunkte und warnt nur noch bei fremden URL-Formen (Browser nachgewiesen).
+
 ## 1.25.4 - 2026-09-10
 - **FIX (KS-B1):** `katastrophenInstances.set(...)` ohne Vorgänger-Cleanup — bei Same-Page-Re-Render blieben die **window-weiten `online`/`offline`-Listener** und die Leaflet-Karte der alten Instanz aktiv. Der Teardown ist dafür in `teardownKatastrophenInstanz()` ausgelagert (Hook und Re-App-Pfad teilen sich den Pfad).
 - **FIX (KS-B2):** `window.katasMapLeafletPromise` blieb nach einem Fehlschlag abgelehnt stehen — Leaflet war damit für die **ganze Sitzung** (auch in anderen Instanzen) kaputt. Jetzt Reset über `resetKatasLeafletPromise()`.

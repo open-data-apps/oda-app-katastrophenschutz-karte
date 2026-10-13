@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "katastrophenschutz-karte",
   "name": "Katastrophenschutz-Karte",
-  "app-version": "1.25.4",
+  "app-version": "1.25.8",
   "app-package-version": "2",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
@@ -70,6 +70,7 @@
   },
   "branding-css": "",
   "api-version": "1",
+  "odas-services": ["proxy"],
   "instanz-config": {
     "seitentitel": {
       "label": "Seitentitel",
@@ -254,7 +255,7 @@
     "apiurls": {
       "label": "URLs zu Datenressourcen",
       "category": "datenherkunft",
-      "hilfe": "Diese App benötigt einen „Kartendienst (WFS)“ (Geodaten-Dienst, liefert GeoJSON). Kopieren Sie die vollständige „GetFeature“-URL inkl. „typeName“ und „outputFormat=application/json“. Beispiel: https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall&OUTPUTFORMAT=application/json. Nur dieser Typ funktioniert.",
+      "hilfe": "Diese App benötigt einen direkten Datenendpunkt mit Notfall-Anlaufstellen: einen „Kartendienst (WFS)“ als vollständige „GetFeature“-URL mit CSV- oder GML-Ausgabe, eine CSV- bzw. JSON-Datei oder eine JSON-API (CKAN „datastore_search“, OpenDataSoft v2.1). JSON muss ein Array oder „results“, „records“ bzw. „result.records“ enthalten; GeoJSON („features“) wird nicht gelesen. Beispiel: https://www.bielefeld01.de/md/WFS/notfall_anlaufstellen/01?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=notfall_anlaufstellen_p&SRSNAME=EPSG:25832&OUTPUTFORMAT=text/csv&NW_INFO=/notfall_anlaufstellen_p_EPSG25832_CSV.csv",
       "typ": "array",
       "format": {
         "typ": "url",

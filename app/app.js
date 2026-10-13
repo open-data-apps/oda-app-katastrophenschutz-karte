@@ -151,6 +151,16 @@ const TYP_BEZEICHNUNG = {
   "csv-zip": "Statische Datei"
 };
 
+// F-119: Der dokumentierte Vertrag (app-package/README) ist ein direkter
+// JSON-, CSV- oder WFS/GML-Endpunkt (JSON als Array, results, records oder
+// result.records); Standard ist assets/daten-beispiel.csv. Die Prüfung schlägt
+// daher nur an, wenn die URL KEINEM dieser Endpunkttypen entspricht.
+function istKsEndpunktUnterstuetzt(url) {
+  return ["wfs", "csv-zip", "ods21", "ckan-dkan-ds", "ckan-dl"].some(
+    (typ) => !validateUrlTypErwartung(url, typ),
+  );
+}
+
 function validateUrlTypErwartung(url, erwarteterTyp) {
   const u = String(url || "");
   if (!erwarteterTyp || isKeineDatenquelleKonfiguriert(u)) return null;
@@ -379,14 +389,18 @@ function app(configdata, enclosingHtmlDivElement) {
     return null;
   }
   // Variante A (F-92): Typprüfung vor dem ersten Fetch.
-  const ksTypWarn = validateUrlTypErwartung(quelle, "wfs");
-  if (ksTypWarn) {
-    renderOdasFehler(enclosingHtmlDivElement, new Error(ksTypWarn), {
-      url: quelle,
-      label: "Anlaufstellen (WFS)",
-      typLabel: "Kartendienst (WFS)",
-      erwarteterTyp: "wfs",
-    });
+  if (!istKsEndpunktUnterstuetzt(quelle)) {
+    renderOdasFehler(
+      enclosingHtmlDivElement,
+      new Error(
+        `Typ passt nicht: erwartet „JSON-, CSV- oder WFS/GML-Endpunkt", erhalten „${String(quelle).slice(0, 60)}…". Prüfen Sie den Hilfe-Tooltip bei „URLs zu Datenressourcen".`,
+      ),
+      {
+        url: quelle,
+        label: "Anlaufstellen (JSON/CSV/WFS)",
+        typLabel: "JSON-, CSV- oder WFS/GML-Endpunkt",
+      },
+    );
     return null;
   }
 
@@ -1225,6 +1239,7 @@ function app(configdata, enclosingHtmlDivElement) {
   }
 
   function normalizeJsonRecords(json, sourceLabel, sourceKey) {
+    if (!json || json.success === false) throw new Error("Unbekanntes Antwortformat: Anlaufstellen-Liste erwartet.");
     const records = Array.isArray(json)
       ? json
       : Array.isArray(json.results)
@@ -1233,7 +1248,9 @@ function app(configdata, enclosingHtmlDivElement) {
           ? json.records
           : Array.isArray(json.result && json.result.records)
             ? json.result.records
-            : [];
+            : null;
+    // F-112: Ein unbekannter Container darf keinen erfolgreichen Leerzustand erzeugen.
+    if (!records) throw new Error("Unbekanntes Antwortformat: Anlaufstellen-Liste erwartet.");
     const normalized = records.map((raw, index) => {
       const record = raw.fields || raw;
       const coords = extractCoordinatesFromObject(record);
@@ -1299,14 +1316,34 @@ function app(configdata, enclosingHtmlDivElement) {
   }
 
   function extractCoordinatePair(root) {
-    const posText = getTextByLocalNames(root, ["pos", "coordinates", "koord", "koordinaten"]);
-    if (posText) {
-      const numbers = posText.match(/-?\d+(?:[.,]\d+)?/g);
-      if (numbers && numbers.length >= 2) {
-        return normalizeCoordinatePair(parseNumber(numbers[0]), parseNumber(numbers[1]));
-      }
+    const position = firstElementByLocalName(root, ["pos", "coordinates", "koord", "koordinaten"]);
+    if (!position) return null;
+    const text = position.textContent.trim();
+    const numbers = position.localName.toLowerCase() === "coordinates"
+      ? text.split(/[\s,]+/).map(Number) // GML 2: Komma als Koordinatentrenner
+      : (text.match(/-?\d+(?:[.,]\d+)?/g) || []).map(parseNumber);
+    if (numbers.length < 2 || !numbers.slice(0, 2).every(Number.isFinite)) return null;
+    const [first, second] = numbers;
+
+    // F-139: CRS vom Koordinatenknoten bzw. seiner Geometrie/Eltern erben.
+    let crs = "";
+    for (let element = position; element && element.getAttribute; element = element.parentElement) {
+      crs = element.getAttribute("srsName") || "";
+      if (crs) break;
     }
-    return null;
+    if (!crs) return normalizeCoordinatePair(first, second); // bisherige Quellen ohne CRS
+    const epsg = /epsg/i.test(crs) && crs.match(/[:/#](\d+)$/);
+    if (epsg && epsg[1] === "25832") return epsg25832ToWgs84(first, second);
+    if (!(epsg && epsg[1] === "4326") && !/[:/]CRS84$/i.test(crs)) {
+      throw new Error("Nicht unterstütztes Koordinatensystem in der GML-Quelle: " + crs);
+    }
+    // EPSG-URN/Definitions-URI: Breite zuerst. Alte epsg.xml-URLs und CRS84: Länge zuerst.
+    const latitudeFirst = epsg && epsg[1] === "4326" &&
+      (/^urn:/i.test(crs) || /\/def\/crs\//i.test(crs));
+    const latitude = latitudeFirst ? first : second;
+    const longitude = latitudeFirst ? second : first;
+    return Math.abs(latitude) <= 90 && Math.abs(longitude) <= 180
+      ? { latitude, longitude } : null;
   }
 
   function extractCoordinatesFromObject(raw) {
