@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.25.9 - 2026-10-13
+- DOC: Hinweis bei fehlender Datenquelle nennt den tatsächlichen Konfigurationseintrag und die erlaubten Formate (JSON, CSV oder WFS/GML).
+
 ## 1.25.8 - 2026-10-08
 - FIX: F-112: Unbekannte Antwortstrukturen als Formatfehler statt als leere Daten anzeigen; bekannte leere Listen bleiben gültig.
 - FIX: F-119 (Nachbesserung): Typprüfung akzeptiert auch die dokumentierten JSON-APIs (CKAN datastore_search, OpenDataSoft v2.1, CKAN-Datei-Download); Hilfetext beschreibt den tatsächlichen JSON/CSV/WFS-GML-Vertrag statt GeoJSON.

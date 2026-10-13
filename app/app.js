@@ -381,9 +381,8 @@ function app(configdata, enclosingHtmlDivElement) {
       new Error("Keine Datenquelle konfiguriert."),
       {
         url: quelle,
-        label: "Anlaufstellen (WFS)",
-        typLabel: "Kartendienst (WFS)",
-        erwarteterTyp: "wfs",
+        label: "Kartendienst – Notfall-Anlaufstellen (WFS)",
+        typLabel: "JSON-, CSV- oder WFS/GML",
       },
     );
     return null;
