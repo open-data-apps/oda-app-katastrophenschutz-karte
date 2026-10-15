@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.25.12 - 2026-10-15
+- FIX: Quellen ohne Regions- oder Typangabe (z. B. WFS-CSV Bielefeld) zeigen „Region Unbekannt“ und als Quelle den Hostnamen der Datenquelle statt „CSV“/„WFS“/„API“. Region- und Typ-Auswahl werden ausgeblendet, wenn nur ein Wert vorkommt; die Kennzahl „Regionen“ zeigt dann „–“. In der Statuszeile steht zwischen Datenstand und Standorthinweis jetzt ein Abstand.
+
 ## 1.25.11 - 2026-10-15
 - DOCS: Neue Store-Screenshots: je drei Desktop- (1440 × 1000) und Mobile-Aufnahmen (390 × 844) der aktuellen App, aufgenommen auf der Dev-Instanz. Bisherige Bilder nach `docs/screenshots/archive/2026-10-13/` verschoben. Keine Änderung an App-Code oder Konfiguration.
 

@@ -646,6 +646,7 @@ function app(configdata, enclosingHtmlDivElement) {
     `;
 
     renderRegionOptions();
+    hideSingleValueFilters();
     updateCacheInfo();
   }
 
@@ -712,7 +713,7 @@ function app(configdata, enclosingHtmlDivElement) {
       <div class="col-6 col-lg-3">
         <div class="card border-info h-100">
           <div class="card-body text-center py-3">
-            <div class="fs-3 fw-bold text-info">${regions}</div>
+            <div class="fs-3 fw-bold text-info">${hasMultipleRegions() ? regions : "–"}</div>
             <div class="text-muted small">Regionen</div>\n              ${kpiContext(configdata.kpiKontext2, "2")}
           </div>
         </div>
@@ -757,6 +758,17 @@ function app(configdata, enclosingHtmlDivElement) {
             `<option value="${escapeAttribute(region)}">${escapeHtml(region)}</option>`,
         )
         .join("");
+  }
+
+  // Filter mit weniger als zwei verschiedenen Werten sind wirkungslos und werden ausgeblendet
+  function hasMultipleRegions() {
+    return new Set(state.allRecords.map((item) => item.region)).size >= 2;
+  }
+
+  function hideSingleValueFilters() {
+    const multipleTypes = new Set(state.allRecords.map((item) => item.category)).size >= 2;
+    byId("region").parentElement.hidden = !hasMultipleRegions();
+    byId("type").parentElement.hidden = !multipleTypes;
   }
 
   function renderTable() {
@@ -946,7 +958,7 @@ function app(configdata, enclosingHtmlDivElement) {
       ? '<span class="badge bg-danger me-2">Offline-Modus</span>'
       : '<span class="badge bg-success me-2">Live-Modus</span>';
     const standHtml = appConfig.datenStand
-      ? '<small class="text-muted ms-2">' + escapeHtml(appConfig.datenStand) + '</small>'
+      ? '<small class="text-muted ms-2 me-2">' + escapeHtml(appConfig.datenStand) + '</small>'
       : "";
     const locationText = state.userLocation
       ? `Standort gesetzt (${state.userLocation.latitude.toFixed(4)}, ${state.userLocation.longitude.toFixed(4)})`
@@ -1102,14 +1114,24 @@ function app(configdata, enclosingHtmlDivElement) {
       return parseKrznGml(trimmed, {
         key: "generic-wfs",
         label: "WFS",
+        host: quelleHost(url),
         typeName: "generic",
       });
     }
     if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
       const json = JSON.parse(trimmed);
-      return normalizeJsonRecords(json, "API", "api");
+      return normalizeJsonRecords(json, quelleHost(url), "api");
     }
-    return parseCsv(text, "CSV", "csv");
+    return parseCsv(text, "", quelleHost(url));
+  }
+
+  // Quelle fuer die Anzeige: Hostname der konfigurierten Datenquelle
+  function quelleHost(u) {
+    try {
+      return new URL(u, location.href).hostname;
+    } catch (e) {
+      return "Datenquelle";
+    }
   }
 
   // Datenabruf: direkt oder ueber den ODAS-Proxy (proxyAktiv)
@@ -1191,15 +1213,15 @@ function app(configdata, enclosingHtmlDivElement) {
       name,
       address,
       type,
-      region: layer.label,
+      region: "",
       latitude: pair.latitude,
       longitude: pair.longitude,
-      sourceLabel: "KRZN WFS",
+      sourceLabel: layer.host,
       sourceKey: layer.key,
     });
   }
 
-  function parseCsv(csvText, regionLabel, sourceKey) {
+  function parseCsv(csvText, regionLabel, sourceLabel) {
     const rows = parseCsvRows(csvText);
     if (rows.length < 2) return [];
     const headers = rows[0].map((header) => cleanText(header));
@@ -1228,15 +1250,15 @@ function app(configdata, enclosingHtmlDivElement) {
         normalizeRecord({
           id:
             getValue(raw, ["id", "fid", "objectid", "uuid"]) ||
-            `${sourceKey}-${index}-${name}-${address}`,
+            `csv-${index}-${name}-${address}`,
           name,
           address,
           type,
           region,
           latitude: coords ? coords.latitude : null,
           longitude: coords ? coords.longitude : null,
-          sourceLabel: regionLabel,
-          sourceKey,
+          sourceLabel,
+          sourceKey: "csv",
         }),
       );
     }
@@ -1276,7 +1298,7 @@ function app(configdata, enclosingHtmlDivElement) {
         type:
           getValue(record, ["type", "typ", "art", "kategorie"]) ||
           inferTypeFromName(JSON.stringify(record)),
-        region: getValue(record, ["region", "kommune", "stadt", "ort"]) || sourceLabel,
+        region: getValue(record, ["region", "kommune", "stadt", "ort"]) || "",
         latitude: coords ? coords.latitude : null,
         longitude: coords ? coords.longitude : null,
         sourceLabel,
