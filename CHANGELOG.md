@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.25.13 - 2026-10-15
+- FIX: Kopfzeile bei 360 px ohne Überlauf (Template): Logo- und Burger-Spalte passen sich der Breite an, das Menü-Symbol ragt nicht mehr über den rechten Rand. Keine Änderung an App-Code oder Konfiguration.
+
 ## 1.25.12 - 2026-10-15
 - FIX: Quellen ohne Regions- oder Typangabe (z. B. WFS-CSV Bielefeld) zeigen „Region Unbekannt“ und als Quelle den Hostnamen der Datenquelle statt „CSV“/„WFS“/„API“. Region- und Typ-Auswahl werden ausgeblendet, wenn nur ein Wert vorkommt; die Kennzahl „Regionen“ zeigt dann „–“. In der Statuszeile steht zwischen Datenstand und Standorthinweis jetzt ein Abstand.
 
