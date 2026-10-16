@@ -63,7 +63,7 @@ Die App erwartet einen Datensatz, aus dem sich mindestens diese Informationen ge
 | `region` / `kommune` / `stadt` | Regionale Zuordnung |
 | `latitude` / `longitude` oder Geometrie | Koordinaten fuer Karte und Distanzberechnung |
 
-Das normalisierte Zielschema liegt in `assets/schema.json`.
+Das Schema der Standardquelle (Spalten der WFS-CSV) liegt in `assets/schema.json`.
 
 ---
 
@@ -102,7 +102,7 @@ Die Standard-`apiurls.anlaufstellen` zeigt lokal auf `../assets/daten-beispiel.c
 | --- | --- |
 | `app/app.js` | Hauptlogik: Datenladen, Normalisierung, Filter, Karte, Tabelle, Detailansicht, Offline-Cache |
 | `app-package.json` | ODAS-App-Metadaten und minimale Instanz-Konfiguration |
-| `assets/schema.json` | Frictionless Data Schema fuer normalisierte Standortdaten |
+| `assets/schema.json` | Frictionless Data Schema der Standardquelle (WFS-CSV) |
 | `assets/daten-beispiel.csv` | Gebuendelte Standardquelle fuer Entwicklung und Tests |
 | `assets/odas-app-icon.svg` | App-Icon |
 | `odas-config/config.json` | Lokale Entwicklungs-Konfiguration |

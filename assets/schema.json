@@ -1,65 +1,38 @@
 {
   "$schema": "https://frictionlessdata.io/schemas/table-schema.json",
   "name": "katastrophenschutz-karte-notfall-anlaufstellen",
-  "title": "Katastrophenschutz-Karte Notfall-Anlaufstellen",
-  "description": "Normalisiertes Schema für offizielle Notfall-Anlaufstellen, Notrufstellen, Infopunkte und Leuchttürme.",
+  "title": "Notfall-Anlaufstellen (Rohdaten)",
+  "description": "Spalten der Standardquelle: WFS der Stadt Bielefeld, Ausgabe als Semikolon-CSV. Die App normalisiert diese Felder intern.",
   "fields": [
     {
-      "name": "id",
+      "name": "WKT",
+      "title": "Geometrie",
       "type": "string",
+      "constraints": {
+        "required": true
+      },
+      "description": "Punktgeometrie als WKT in EPSG:25832, z. B. POINT (469378.69 5764006.52)."
+    },
+    {
+      "name": "gid",
       "title": "ID",
-      "description": "Eindeutige ID der Anlaufstelle innerhalb der App."
+      "type": "integer",
+      "description": "Kennung der Anlaufstelle in der Quelle."
     },
     {
       "name": "name",
-      "type": "string",
       "title": "Name",
+      "type": "string",
+      "constraints": {
+        "required": true
+      },
       "description": "Name oder Bezeichnung der Anlaufstelle."
     },
     {
-      "name": "address",
-      "type": "string",
+      "name": "adresse",
       "title": "Adresse",
+      "type": "string",
       "description": "Adresse der Anlaufstelle."
-    },
-    {
-      "name": "type",
-      "type": "string",
-      "title": "Typ",
-      "description": "Rohbezeichnung des Einrichtungstyps aus der Datenquelle."
-    },
-    {
-      "name": "category",
-      "type": "string",
-      "title": "Typgruppe",
-      "description": "Kategorie der Anlaufstelle: leuchtturm, notrufstelle, infopunkt oder anlaufstelle.",
-      "constraints": {
-        "enum": ["leuchtturm", "notrufstelle", "infopunkt", "anlaufstelle"]
-      }
-    },
-    {
-      "name": "region",
-      "type": "string",
-      "title": "Region",
-      "description": "Kommune, Stadt oder Kreis."
-    },
-    {
-      "name": "latitude",
-      "type": "number",
-      "title": "Breitengrad",
-      "description": "WGS84 latitude."
-    },
-    {
-      "name": "longitude",
-      "type": "number",
-      "title": "Längengrad",
-      "description": "WGS84 longitude."
-    },
-    {
-      "name": "source",
-      "type": "string",
-      "title": "Datenquelle",
-      "description": "Herkunft der Daten, z.B. KRZN WFS oder Stadt Bielefeld."
     }
   ]
 }

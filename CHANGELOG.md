@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.25.14 - 2026-10-16
+- FIX: Schema beschreibt jetzt die Spalten der Standardquelle (WFS-CSV) statt des internen Modells, damit die Store-Datenprüfung die Quelle prüfen kann.
+
 ## 1.25.13 - 2026-10-15
 - FIX: Kopfzeile bei 360 px ohne Überlauf (Template): Logo- und Burger-Spalte passen sich der Breite an, das Menü-Symbol ragt nicht mehr über den rechten Rand. Keine Änderung an App-Code oder Konfiguration.
 
