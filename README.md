@@ -162,3 +162,7 @@ Diese Anbieter bleiben auch im Standalone-Betrieb extern; ein vollständig autar
 ## Autor
 
 © 2026, Ondics GmbH
+
+## Lizenz
+
+Der App-Code steht unter der [MIT-Lizenz](LICENSE), © 2026 Ondics GmbH. Mitgelieferte Bibliotheken unter `app/vendor/` behalten ihre eigenen Lizenzen. Daten und Bilder aus den angebundenen Quellen behalten die Rechte der jeweiligen Quelle; die MIT-Lizenz gilt nicht fuer sie.
